@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const API_URL = "https://matchaibackend.onrender.com"; // Update after deployment
+const API_URL = "https://matchaibackend.onrender.com/chat"; // Update after deployment
 const session_id = "user_" + Math.floor(Math.random() * 10000);
 
 export default function Home() {
@@ -63,7 +63,7 @@ export default function Home() {
 
             <div className="flex justify-center mt-6">
             <img
-                    src="/images/matcha.png"
+                    src={process.env.PUBLIC_URL + "/images/matcha.png"}
                     alt="matcha"
                     className="rounded-2xl max-w-full h-auto shadow-xl w-[320px] md:w-[360px] transition-transform duration-300 ease-in-out hover:scale-105"
             />
