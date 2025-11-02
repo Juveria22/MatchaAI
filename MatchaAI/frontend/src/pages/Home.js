@@ -63,7 +63,7 @@ export default function Home() {
 
             <div className="flex justify-center mt-6">
             <img
-                    src="/images/matcha.png"
+                    src="/images/matcha_smiling.png"
                     alt="matcha"
                     className="rounded-2xl max-w-full h-auto shadow-xl w-[320px] md:w-[360px] transition-transform duration-300 ease-in-out hover:scale-105"
             />
