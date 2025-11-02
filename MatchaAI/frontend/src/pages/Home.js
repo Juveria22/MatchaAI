@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const API_URL = "http://127.0.0.1:8000/chat"; // Update after deployment
+const API_URL = "https://matchaibackend.onrender.com"; // Update after deployment
 const session_id = "user_" + Math.floor(Math.random() * 10000);
 
 export default function Home() {
