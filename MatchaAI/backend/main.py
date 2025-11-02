@@ -1,7 +1,8 @@
 #to start backend: venv\Scripts\activate
 #uvicorn backend.main:app --reload
 #deactivate
-import os
+from pydantic import BaseModel
+import json, os
 
 #from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -72,3 +73,34 @@ def chat_with_memory(request: ChatRequest):
 def chat_with_documents(request: ChatRequest):
     response = query_documents(request.query)
     return {"response": response}
+
+
+#leaderboard code
+
+LEADERBOARD_FILE = "leaderboard.json"
+
+class ScoreEntry(BaseModel):
+    name: str
+    score: int
+
+@app.get("/leaderboard")
+def get_leaderboard():
+    if not os.path.exists(LEADERBOARD_FILE):
+        return []
+    with open(LEADERBOARD_FILE, "r") as f:
+        return json.load(f)
+
+@app.post("/leaderboard")
+def add_score(entry: ScoreEntry):
+    leaderboard = []
+    if os.path.exists(LEADERBOARD_FILE):
+        with open(LEADERBOARD_FILE, "r") as f:
+            leaderboard = json.load(f)
+
+    leaderboard.append(entry.dict())
+    leaderboard = sorted(leaderboard, key=lambda x: x["score"], reverse=True)[:5]
+
+    with open(LEADERBOARD_FILE, "w") as f:
+        json.dump(leaderboard, f)
+
+    return leaderboard

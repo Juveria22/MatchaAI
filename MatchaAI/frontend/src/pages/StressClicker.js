@@ -12,11 +12,12 @@ export default function StressClicker() {
 
     // Load leaderboard from localStorage
     useEffect(() => {
-        fetch("https://matchaibackend.onrender.com/leaderboard")
-            .then((res) => res.json())
-            .then((data) => setLeaderboard(data))
-            .catch(() => setLeaderboard([]));
+    fetch("https://matchaibackend.onrender.com/leaderboard")
+        .then((res) => res.ok ? res.json() : [])
+        .then((data) => Array.isArray(data) ? setLeaderboard(data) : setLeaderboard([]))
+        .catch(() => setLeaderboard([]));
     }, []);
+
 
     // Timer countdown
     useEffect(() => {
