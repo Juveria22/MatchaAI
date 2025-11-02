@@ -43,6 +43,7 @@ export default function Contact() {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 bg-white p-6 rounded-2xl shadow-md"
         >
+            <input type="hidden" name="to_email" value="aminjuveria00@gmail.com"/>
             <input
             type="text"
             name="user_name"

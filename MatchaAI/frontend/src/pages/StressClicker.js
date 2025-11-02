@@ -8,11 +8,14 @@ export default function StressClicker() {
     const [leaderboard, setLeaderboard] = useState([]);
     const [playerName, setPlayerName] = useState("");
     const [clicked, setClicked] = useState(false);
+    const popRef = useRef(null);
 
     // Load leaderboard from localStorage
     useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem("matchaLeaderboard")) || [];
-        setLeaderboard(saved);
+        fetch("https://matchaibackend.onrender.com/leaderboard")
+            .then((res) => res.json())
+            .then((data) => setLeaderboard(data))
+            .catch(() => setLeaderboard([]));
     }, []);
 
     // Timer countdown
@@ -26,6 +29,16 @@ export default function StressClicker() {
         return () => clearTimeout(timer);
     }, [isRunning, timeLeft]);
 
+    useEffect(() => {
+        popRef.current = new Audio("/sounds/pop.mp3");
+    }, []);
+
+    useEffect(() => {
+        if (popRef.current) {
+        popRef.current.muted = muted;
+        }
+    }, [muted]);
+
     // Start game — prompt for name
     const startGame = () => {
         const name = prompt("Enter your name (or leave blank for Anonymous):");
@@ -36,22 +49,36 @@ export default function StressClicker() {
     };
 
     // End game + save to leaderboard
-    const endGame = () => {
+    const endGame = async () => {
+        if (!isRunning) return;
         setIsRunning(false);
-        const newEntry = { name: playerName, score: count };
-        const updated = [...leaderboard, newEntry]
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 5);
 
-        setLeaderboard(updated);
-        localStorage.setItem("matchaLeaderboard", JSON.stringify(updated));
+        const newEntry = { name: playerName, score: count };
+
+        try {
+            const res = await fetch("https://matchaibackend.onrender.com/leaderboard", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newEntry),
+            });
+
+            const updated = await res.json();
+            setLeaderboard(updated);
+        } catch (err) {
+            console.error("Failed to update leaderboard:", err);
+        }
+
+        alert(`Game over! ${playerName} scored ${count} 🍵`);
     };
 
     // Click handler + pulse animation
     const handleClick = () => {
         if (!isRunning) return;
-        const pop = new Audio("/sounds/pop.mp3");
-        if (!muted) pop.play();
+        if (!muted && popRef.current) {
+        // ✅ play from ref so mute works
+        popRef.current.currentTime = 0;
+        popRef.current.play();
+        }
 
         setCount((c) => c + 1);
         setClicked(true);
@@ -97,17 +124,17 @@ export default function StressClicker() {
                 ) : (
                 <button
                     onClick={endGame}
-                    className="bg-red-600 text-white px-6 py-2 rounded-xl hover:opacity-90"
+                    className="bg-[rgb(20,79,20)] text-white px-6 py-2 rounded-xl hover:opacity-90"
                 >
                     End Game
                 </button>
                 )}
 
                 <button
-                onClick={() => setMuted(!muted)}
-                className="bg-[rgb(20,79,20)] text-[#e0ede0] px-4 py-2 rounded-xl hover:opacity-90"
+                    onClick={() => setMuted((m) => !m)}
+                    className="bg-[rgb(20,79,20)] text-[#e0ede0] px-4 py-2 rounded-xl hover:opacity-90"
                 >
-                {muted ? "🔇 Unmute" : "🔊 Mute Pop"}
+                    {muted ? "🔇 Unmute" : "🔊 Mute Pop"}
                 </button>
             </div>
             </div>
