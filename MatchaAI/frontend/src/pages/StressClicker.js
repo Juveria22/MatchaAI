@@ -77,7 +77,7 @@ export default function StressClicker() {
             </div>
 
             <img
-            src={process.env.PUBLIC_URL + "/images/matcha.png"}
+            src="/images/matcha.png"
             alt="matcha"
             className={`h-[420px] cursor-pointer transition-transform duration-200 ease-out ${
                 clicked ? "scale-125" : "scale-100"
