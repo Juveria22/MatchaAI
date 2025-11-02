@@ -3,3 +3,4 @@ timestamp,session_id,query,response,crisis_flag,engine_used
 2025-11-01T23:12:09.039944,user_5766,hey,"Sorry, I'm taking a little breather right now. Try again in a few seconds!",False,chat
 2025-11-01T23:15:46.435436,user_2678,hey,Hello there! I'm so glad you reached out. How are you feeling today?,False,chat
 2025-11-02T01:18:58.573900,user_1043,hey!,Hey there! 😊 How are you feeling today?,False,chat
+2025-11-02T01:07:53.655888,user_4790,hi!,Hello there! 🌟 How are you feeling today? I'm here to listen and support you in any way you need.,False,chat
