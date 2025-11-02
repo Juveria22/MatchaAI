@@ -6,11 +6,11 @@ import os
 #from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from backend.chat_engine import get_response
-from backend.crisis import CRISIS_RESPONSE, contains_crisis_keyword
-from backend.doc_engine import query_documents
-from backend.logger import log_chat
-from backend.models import ChatRequest
+from chat_engine import get_response
+from crisis import CRISIS_RESPONSE, contains_crisis_keyword
+from doc_engine import query_documents
+from logger import log_chat
+from models import ChatRequest
 from fastapi.middleware.cors import CORSMiddleware #this lets u access backend code from the frontend 
 #from ollama import Ollama 
 
