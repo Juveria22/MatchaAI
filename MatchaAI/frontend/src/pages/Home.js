@@ -7,6 +7,9 @@ export default function Home() {
     const [chatOpen, setChatOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
+    const [typingText, setTypingText] = useState(""); // what's currently being typed
+    const [isTyping, setIsTyping] = useState(false);  // whether bot is mid-animation
+
     const chatBodyRef = useRef(null);
 
     // Auto-scroll to latest message
@@ -35,7 +38,21 @@ export default function Home() {
             body: JSON.stringify({ session_id, query: userText }),
         });
         const data = await res.json();
-        appendMessage("Bot", data.response || "No response received.");
+        const botResponse = data.response || "No response received.";
+
+        // animate typing
+        setIsTyping(true);
+        setTypingText(""); // reset before new message
+        let i = 0;
+        const interval = setInterval(() => {
+        setTypingText((prev) => prev + botResponse.charAt(i));
+        i++;
+        if (i >= botResponse.length) {
+            clearInterval(interval);
+            setIsTyping(false);
+            appendMessage("Bot", botResponse); // add final message when done
+        }
+        }, 25); // typing speed (ms per letter)
         } catch (err) {
         appendMessage("Bot", "Oops! Something went wrong.");
         }
@@ -113,6 +130,15 @@ export default function Home() {
                         </div>
                     </div>
                 ))}
+
+                {isTyping && (
+                    <div className="flex justify-start">
+                        <div className="max-w-[75%] px-4 py-2 rounded-2xl text-sm shadow-sm bg-[rgb(20,79,20)] text-[#e0ede0] self-start">
+                        {typingText}
+                        </div>
+                    </div>
+                )}
+
 
             </div>
 

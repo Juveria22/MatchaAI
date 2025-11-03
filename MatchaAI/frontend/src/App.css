@@ -55,3 +55,15 @@
 .chat-widget {
   animation: slideUp 0.3s ease forwards;
 }
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: "|";
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+}

@@ -1,4 +1,8 @@
 //npm start
+
+// Laddu's idea: New game cup pong with matcha mb you toss in toppings
+//Find the matcha or a whisk and it'll be hidden somewhere on the site?
+
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import StressClicker from "./pages/StressClicker";

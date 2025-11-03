@@ -83,7 +83,7 @@ export default function StressClicker() {
 
         setCount((c) => c + 1);
         setClicked(true);
-        setTimeout(() => setClicked(false), 150);
+        setTimeout(() => setClicked(false), 120);
     };
 
     const medal = (index) => {
@@ -105,13 +105,14 @@ export default function StressClicker() {
             </div>
 
             <img
-            src="/images/matcha.png"
-            alt="matcha"
-            className={`h-[420px] cursor-pointer transition-transform duration-200 ease-out ${
-                clicked ? "scale-125" : "scale-100"
-            } ${isRunning ? "hover:scale-125" : "opacity-70"}`}
-            onClick={handleClick}
+                src="/images/matcha.png"
+                alt="matcha"
+                onClick={handleClick}
+                className={`h-[420px] cursor-pointer transition-transform duration-100 ease-out ${
+                    clicked ? "scale-110" : "scale-100"
+                } ${!isRunning ? "opacity-70" : ""}`}
             />
+
 
 
             <div className="flex gap-4">
