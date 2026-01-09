@@ -82,7 +82,7 @@ npm or yarn
 
 Backend Setup
 bash# Clone the repository
-git clone https://github.com/juveriaamin22/myProjects.git
+git clone https://github.com/Juveria22/MatchaAI.git
 cd myProjects/matchaAI
 
 # Navigate to backend
