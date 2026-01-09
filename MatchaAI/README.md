@@ -1,7 +1,6 @@
 <div align="center">
   <h1>MatchaAI</h1>
   <p><strong>Your Comforting Mental Health Companion</strong></p>
-Show Image
   <p>
     <a href="#features">Features</a> •
     <a href="#demo">Demo</a> •
@@ -29,12 +28,17 @@ Live Demo: MatchaAI on Render (Add your actual deployment link)
 Version History
 <details>
 <summary>Click to see previous versions</summary>
-Version 1:
-Show Image
-Version 2:
-Show Image
+Version 1
+![Version 1](matchaiver2.png)
+
+Version 2 (Version 2) 
+![Version 2](matchaicurrver.png) 
+
+Version 3 (Current Version)
+![Current version](matchacurr.png) 
+
 </details>
-🛠️ Tech Stack
+Tech Stack
 Frontend
 
 React
@@ -156,12 +160,3 @@ OpenAI
   <p>Made with a glass of matcha and <3 by <a href="https://github.com/juveriaamin22">Juveria Amin</a></p>
   <p>If this project helped you, consider giving it a ⭐!</p>
 </div>
-
-Version 1
-![Version 1](matchaiver2.png)
-
-Version 2 (Version 2) 
-![Version 2](matchaicurrver.png) 
-
-Version 3 (Current Version)
-![Current version](matchacurr.png) 
