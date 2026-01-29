@@ -1,7 +1,7 @@
 export default function About() {
     return (
         <div className="min-h-screen bg-[#e0ede0] text-[rgb(20,79,20)] flex flex-col items-center p-8">
-        <h1 className="text-3xl font-bold mb-6">🌼 About MatchaAI</h1>
+        <h1 className="text-3xl font-bold mb-6">♡ About MatchaAI</h1>
 
         <div className="max-w-3xl text-center leading-relaxed space-y-6">
             <p>

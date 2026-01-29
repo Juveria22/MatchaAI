@@ -9,7 +9,7 @@ export default function BackgroundMusic() {
 
   const [bgMusic, setBgMusic] = useState(null);
 
-  // 🎶 Initialize the looping background music
+  // Initialize the looping background music
   useEffect(() => {
     const music = new Howl({
       src: ["/sounds/lofi-cafe.mp3"],
@@ -18,7 +18,7 @@ export default function BackgroundMusic() {
     });
     setBgMusic(music);
 
-    // Browsers block autoplay → wait for first click
+    // Browsers wait for first click
     const startMusic = () => {
       if (!isMuted && !music.playing()) music.play();
       document.removeEventListener("click", startMusic);
@@ -54,7 +54,7 @@ export default function BackgroundMusic() {
       onClick={() => setIsMuted(!isMuted)}
       className="fixed bottom-8 left-8 bg-[rgb(20,79,20)] text-[#e0ede0] px-4 py-2 rounded-full shadow-md hover:opacity-90 transition-transform active:scale-95 z-50"
     >
-      {isMuted ? "🔇 Music Off" : "🎵 Music On"}
+      {isMuted ? "Music Off" : "Music On"}
     </button>
   );
 }

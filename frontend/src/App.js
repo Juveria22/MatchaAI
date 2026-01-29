@@ -3,6 +3,8 @@
 // Laddu's idea: New game cup pong with matcha mb you toss in toppings
 //Find the matcha or a whisk and it'll be hidden somewhere on the site?
 
+//emojis: https://emojicombos.com/tiny-heart
+
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import StressClicker from "./pages/StressClicker";
@@ -17,8 +19,8 @@ export default function App() {
   return (
     <Router>
       {/* NAVBAR */}
-      <nav className="bg-[rgb(20,79,20)] text-white flex justify-between items-center px-8 py-4">
-        <div className="font-bold text-xl">🍵 MatchaAI</div>
+      <nav className="bg-[#254f14] text-white flex justify-between items-center px-8 py-4">
+        <div className="font-bold text-xl">MatchaAI</div>
         <ul className="flex gap-8">
           <li>
             <Link to="/" className="hover:underline">

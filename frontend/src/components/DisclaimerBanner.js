@@ -18,7 +18,7 @@ export default function DisclaimerBanner() {
   return (
     <div className="fixed bottom-0 left-0 w-full bg-[rgb(20,79,20)] text-[#e0ede0] text-sm flex justify-between items-center px-6 py-3 z-50 shadow-md">
       <p>
-        💚 MatchaAI is a space to relax and vent — not a substitute for therapy or medical care.
+        MatchaAI is a space to relax and vent not a substitute for therapy or medical care.
         If you're in crisis, visit the <a href="/resources" className="underline">Resources</a> page.
       </p>
       <button

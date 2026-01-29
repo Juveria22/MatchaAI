@@ -1,11 +1,11 @@
 export default function Resources() {
     return (
-        <div className="min-h-screen bg-[#e0ede0] text-[rgb(20,79,20)] flex flex-col items-center p-8">
-        <h1 className="text-3xl font-bold mb-6">💚 Mental Health & Crisis Resources</h1>
+        <div className="min-h-screen bg-[#e0ede0] text-[rgba(50, 94, 39, 1)] flex flex-col items-center p-8">
+        <h1 className="text-3xl font-bold mb-6">♥ Mental Health & Crisis Resources ♥</h1>
 
         <p className="max-w-2xl text-center mb-8">
-            MatchaAI is a safe, comforting space to vent and recenter — 
-            but it's not a substitute for therapy or professional mental health care.  
+            MatchaAI is a safe, comforting space to vent and recenter
+            but it's not a substitute for therapy or professional mental health care.
             If you're in crisis or need immediate help, please reach out to a trusted source below.
         </p>
 
@@ -29,14 +29,14 @@ export default function Resources() {
                 </a>
                 </li>
                 <li>
-                <strong>Crisis Text Line</strong> — Text <em>HOME</em> to{" "}
+                <strong>Crisis Text Line</strong> - Text <em>HOME</em> to{" "}
                 <strong>741741</strong> (free 24/7 support).
                 </li>
                 <li>
-                <strong>Veterans Crisis Line</strong> — Call <strong>988</strong> then press 1.
+                <strong>Veterans Crisis Line</strong> - Call <strong>988</strong> then press 1.
                 </li>
                 <li>
-                <strong>Trans Lifeline</strong> —{" "}
+                <strong>Trans Lifeline</strong> -{" "}
                 <a
                     href="https://translifeline.org/"
                     target="_blank"
@@ -52,7 +52,7 @@ export default function Resources() {
 
             {/* PROFESSIONAL HELP */}
             <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-3">🧠 Professional Support</h2>
+            <h2 className="text-xl font-semibold mb-3">Professional Support</h2>
             <ul className="list-disc list-inside space-y-2">
                 <li>
                 <a
@@ -63,7 +63,7 @@ export default function Resources() {
                 >
                     BetterHelp
                 </a>{" "}
-                — Affordable online therapy and licensed therapists.
+                - Affordable online therapy and licensed therapists.
                 </li>
                 <li>
                 <a
@@ -74,7 +74,7 @@ export default function Resources() {
                 >
                     Talkspace
                 </a>{" "}
-                — Therapy and psychiatry available through chat or video.
+                - Therapy and psychiatry available through chat or video.
                 </li>
                 <li>
                 <a
@@ -85,7 +85,7 @@ export default function Resources() {
                 >
                     Find a Helpline
                 </a>{" "}
-                — Global directory of mental health hotlines.
+                - Global directory of mental health hotlines.
                 </li>
                 <li>
                 <a
@@ -96,14 +96,14 @@ export default function Resources() {
                 >
                     Open Path Collective
                 </a>{" "}
-                — Affordable in-person or virtual therapy sessions.
+                - Affordable in-person or virtual therapy sessions.
                 </li>
             </ul>
             </div>
 
             {/* SELF-HELP TOOLS */}
             <div className="bg-white rounded-xl shadow-md p-6 md:col-span-2">
-            <h2 className="text-xl font-semibold mb-3">🌿 Self-Care & Mental Wellness Tools</h2>
+            <h2 className="text-xl font-semibold mb-3">Self-Care & Mental Wellness Tools</h2>
             <ul className="list-disc list-inside space-y-2">
                 <li>
                 <a
@@ -114,7 +114,7 @@ export default function Resources() {
                 >
                     Headspace
                 </a>{" "}
-                — Meditation and mindfulness made simple.
+                - Meditation and mindfulness made simple.
                 </li>
                 <li>
                 <a
@@ -125,14 +125,14 @@ export default function Resources() {
                 >
                     Calm
                 </a>{" "}
-                — Sleep, meditation, and relaxation.
+                - Sleep, meditation, and relaxation.
                 </li>
             </ul>
             </div>
         </div>
 
         <p className="mt-10 max-w-xl text-center text-sm opacity-80">
-            💬 MatchaAI is here to help you pause, breathe, and process your emotions.
+            MatchaAI is here to help you pause, breathe, and process your emotions.
             But please, reach out for professional support when you need it.
         </p>
         </div>

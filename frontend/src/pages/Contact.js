@@ -18,7 +18,7 @@ export default function Contact() {
         )
         .then(
             () => {
-            setStatus("Message sent successfully 💚");
+            setStatus("Message sent successfully.");
             e.target.reset();
             },
             (error) => {
@@ -35,7 +35,7 @@ export default function Contact() {
         </h2>
         <p className="mb-6 text-[rgb(20,79,20)]">
             We'd love to hear from you! Whether you have questions, feedback, or
-            just need someone to reach out, send us a note below 💌
+            just need someone to reach out, send us a note below ♥
         </p>
 
         <form
