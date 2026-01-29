@@ -24,7 +24,7 @@ Responsive Design - Fully responsive interface built with React and Tailwind CSS
 Offline Capable - Can run entirely locally with Ollama for complete privacy
 
 Demo
-Live Demo: MatchaAI on Render (Add your actual deployment link)
+Live Demo: MatchaAI on Render matchaibackend.onrender.com
 Version History
 <details>
 <summary>Click to see previous versions</summary>
