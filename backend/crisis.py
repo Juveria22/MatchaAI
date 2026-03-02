@@ -2,7 +2,7 @@ from typing import List
 
 CRISIS_KEYWORDS: List[str] = [
     "suicidal", "suicide", "kill myself", "die", "hopeless", "worthless", "can't go on", "give up", "kms", "ending it all", "end it all", "don't want to live",
-    "no reason to live"
+    "no reason to live", "really depressed", "calling it quits"
 ]
 
 CRISIS_RESPONSE = (
