@@ -1,3 +1,121 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --m-bg: #f8f4ed;
+  --m-bg2: #f1e9dd;
+  --m-card: #fffdfa;
+  --m-ink: #2b3527;
+  --m-soft: #616d57;
+  --m-accent: #5d7f45;
+  --m-deep: #4c6b3c;
+  --m-line: #e5dccc;
+  --m-blush: #c99298;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--m-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--m-accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--m-ink);
+}
+
+/* nav and card hovers */
+.m-navlink {
+  color: var(--m-ink);
+  transition: color 0.18s ease;
+}
+.m-navlink:hover {
+  color: var(--m-accent);
+}
+
+.m-themebtn:hover {
+  border-color: var(--m-accent);
+  color: var(--m-accent);
+}
+
+.m-tile {
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.m-gamecard:hover .m-tile {
+  transform: translateY(-3px);
+  border-color: var(--m-accent);
+}
+
+.m-cta-solid:hover {
+  background: var(--m-accent);
+  border-color: var(--m-accent);
+  color: var(--m-bg);
+}
+.m-cta-ghost:hover {
+  border-color: var(--m-accent);
+  color: var(--m-accent);
+}
+
+/* ritual card reveal */
+.m-reveal-strip {
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+.m-reveal:hover .m-reveal-strip {
+  transform: translateY(-100%);
+}
+
+/* half pill navbar fade */
+.m-nav {
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.35s ease;
+  will-change: transform, opacity;
+}
+.m-nav--hidden {
+  transform: translate(-50%, -108%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes m-dots {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+@keyframes m-rise {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-560px);
+  }
+}
+@keyframes m-rise2 {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-560px);
+  }
+}
+@keyframes m-pop {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}

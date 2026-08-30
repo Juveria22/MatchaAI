@@ -1,68 +1,27 @@
-//npm start
-
-// Laddu's idea: New game cup pong with matcha mb you toss in toppings
-//Find the matcha or a whisk and it'll be hidden somewhere on the site?
-
-//emojis: https://emojicombos.com/tiny-heart
-
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import StressClicker from "./pages/StressClicker";
-import BackgroundMusic from "./components/BackgroundMusic";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import ChatWidget from "./components/ChatWidget";
+import Lifestyle from "./pages/Lifestyle";
+import Companion from "./pages/Companion";
+import Play from "./pages/Play";
 import Resources from "./pages/Resources";
-import About from "./pages/About";
-import DisclaimerBanner from "./components/DisclaimerBanner";
-import Contact from "./pages/Contact";
-import "./App.css"; // make sure fade-in + typing CSS goes here
+import { useTheme } from "./theme";
 
 export default function App() {
+  const { toggle, icon } = useTheme();
+
   return (
-    <Router>
-      {/* NAVBAR */}
-      <nav className="bg-[#254f14] text-white flex justify-between items-center px-8 py-4">
-        <div className="font-bold text-xl">MatchaAI</div>
-        <ul className="flex gap-8">
-          <li>
-            <Link to="/" className="hover:underline">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/clicker" className="hover:underline">
-              Matcha Clicker
-            </Link>
-          </li>
-          <li>
-            <Link to="/resources" className="hover:underline">
-              Resources
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className="hover:underline">
-              About
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="hover:underline">
-              Contact
-            </Link>
-          </li>
-        </ul>
-      </nav>
-
-      {/* ROUTES */}
-      <div className="min-h-screen bg-[#e0ede0] text-[rgb(20,79,20)] relative overflow-hidden">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/clicker" element={<StressClicker />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-
-        <DisclaimerBanner />
-        <BackgroundMusic />
-      </div>
-    </Router>
+    <>
+      <NavBar onToggleTheme={toggle} themeIcon={icon} />
+      <Routes>
+        <Route path="/" element={<Lifestyle />} />
+        <Route path="/matchai" element={<Companion />} />
+        <Route path="/play" element={<Play />} />
+        <Route path="/resources" element={<Resources />} />
+        <Route path="*" element={<Lifestyle />} />
+      </Routes>
+    </>
   );
 }
+
+export { ChatWidget };
