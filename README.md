@@ -44,13 +44,13 @@ The chat side combines a cloud model (OpenAI) with local inference (Ollama) for 
 <summary>Version history</summary>
 
 Version 1
-![Version 1](matchaiver2.png)
+![Version 1](frontend/public/images/matchaiver2.png)
 
 Version 2
-![Version 2](matchaicurrver.png)
+![Version 2](frontend/public/images/matchaicurrver.png)
 
 Version 3
-![Version 3](matchacurr.png)
+![Version 3](frontend/public/images/matchacurr.png)
 
 </details>
 
