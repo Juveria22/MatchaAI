@@ -32,6 +32,16 @@ app.add_middleware(
 LEADERBOARD_FILE = "leaderboard.json"
 MAX_LEADERBOARD_SIZE = 5
 
+# scorable games and which way is better
+# asc = a time in seconds, lower wins. desc = a count, higher wins
+SCORE_DIRECTION = {
+    "whisk": "asc",
+    "memory": "asc",
+    "catch": "desc",
+    "pearl": "desc",
+    "clicker": "desc",
+}
+
 # Only route to the doc engine when the user is explicitly seeking advice or
 # strategies, not just mentioning a wellness-related feeling.
 DOC_INTENT_KEYWORDS = [
@@ -49,16 +59,37 @@ def _is_doc_query(query: str) -> bool:
     return any(keyword in text for keyword in DOC_INTENT_KEYWORDS)
 
 
-def _read_leaderboard() -> list[dict]:
+def _read_all() -> dict:
+    # file holds { game: [ {name, score}, ... ] }
+    # older versions stored a bare list, that becomes the clicker board
     if not os.path.exists(LEADERBOARD_FILE):
-        return []
+        return {}
     with open(LEADERBOARD_FILE, "r") as f:
-        return json.load(f)
+        data = json.load(f)
+    if isinstance(data, list):
+        return {"clicker": data}
+    return data
 
 
-def _write_leaderboard(entries: list[dict]) -> None:
+def _write_all(data: dict) -> None:
     with open(LEADERBOARD_FILE, "w") as f:
-        json.dump(entries, f)
+        json.dump(data, f)
+
+
+def _read_board(game: str) -> list[dict]:
+    return _read_all().get(game, [])
+
+
+def _add_score(game: str, entry: dict) -> list[dict]:
+    data = _read_all()
+    board = data.get(game, [])
+    board.append(entry)
+    ascending = SCORE_DIRECTION.get(game, "desc") == "asc"
+    board = sorted(board, key=lambda x: x["score"], reverse=not ascending)
+    board = board[:MAX_LEADERBOARD_SIZE]
+    data[game] = board
+    _write_all(data)
+    return board
 
 
 #rest api routes
@@ -109,24 +140,49 @@ async def doc_chat(request: ChatRequest):
     return {"response": response}
 
 
-# clicker game leaderboad 
+# per game leaderboards
+# whisk and memory store seconds, lower is better
+# catch and pearl store a count, higher is better
 
 class ScoreEntry(BaseModel):
     name: str
-    score: int
+    score: float
 
-#returns top 5
+
+#top 5 for one game
+
+@app.get("/leaderboard/{game}")
+async def get_game_leaderboard(game: str):
+    if game not in SCORE_DIRECTION:
+        raise HTTPException(status_code=404, detail="Unknown game.")
+    return await asyncio.to_thread(_read_board, game)
+
+
+#adding a new score to one game
+
+@app.post("/leaderboard/{game}")
+async def add_game_score(game: str, entry: ScoreEntry):
+    if game not in SCORE_DIRECTION:
+        raise HTTPException(status_code=404, detail="Unknown game.")
+    name = entry.name.strip()[:24] or "anonymous"
+    return await asyncio.to_thread(_add_score, game, {"name": name, "score": entry.score})
+
+
+#every board at once
+
+@app.get("/leaderboards")
+async def get_all_leaderboards():
+    data = await asyncio.to_thread(_read_all)
+    return {g: data.get(g, []) for g in SCORE_DIRECTION}
+
+
+# old clicker routes, kept so nothing breaks
 
 @app.get("/leaderboard")
 async def get_leaderboard():
-    return await asyncio.to_thread(_read_leaderboard)
+    return await asyncio.to_thread(_read_board, "clicker")
 
-#adding a new score
 
 @app.post("/leaderboard")
 async def add_score(entry: ScoreEntry):
-    leaderboard = await asyncio.to_thread(_read_leaderboard)
-    leaderboard.append(entry.dict())
-    leaderboard = sorted(leaderboard, key=lambda x: x["score"], reverse=True)[:MAX_LEADERBOARD_SIZE]
-    await asyncio.to_thread(_write_leaderboard, leaderboard)
-    return leaderboard
+    return await asyncio.to_thread(_add_score, "clicker", {"name": entry.name, "score": entry.score})
