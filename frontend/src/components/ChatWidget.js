@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { askMatchai } from "../api";
 
-const GREETING =
-  "Hi, I'm matchai. Good to see you. What's on your mind today?";
+const GREETING = "Hi, I'm matchai. Good to see you. What's on your mind today?";
 
 const FALLBACK =
   "I'm having a little trouble reaching the server right now. Take a slow breath and try again in a moment. I'll be here.";
@@ -13,51 +12,31 @@ const CHIPS = [
   "Guide me through a breath",
 ];
 
-const SANS = "'Jost', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
-
 function Dots() {
   return (
-    <div
-      style={{
-        alignSelf: "flex-start",
-        display: "flex",
-        gap: 4,
-        background: "var(--m-bg2)",
-        padding: "12px 14px",
-        borderRadius: "16px 16px 16px 4px",
-      }}
-    >
+    <div className="flex self-start gap-1 rounded-t-2xl rounded-br-2xl rounded-bl bg-bg2 px-3.5 py-3">
       {[0, 0.2, 0.4].map((d) => (
         <div
           key={d}
-          style={{
-            width: 6,
-            height: 6,
-            borderRadius: "50%",
-            background: "var(--m-soft)",
-            animation: `m-dots 1.2s ${d}s infinite`,
-          }}
+          className="h-1.5 w-1.5 animate-dots rounded-full bg-soft"
+          style={{ animationDelay: d + "s" }}
         />
       ))}
     </div>
   );
 }
 
-function Bubble({ role, text, fontSize }) {
+function Bubble({ role, text, small }) {
   const mine = role === "user";
   return (
     <div
-      style={{
-        alignSelf: mine ? "flex-end" : "flex-start",
-        maxWidth: "85%",
-        background: mine ? "var(--m-deep)" : "var(--m-bg2)",
-        color: mine ? "#253317" : "var(--m-ink)",
-        padding: "10px 14px",
-        borderRadius: mine ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-        fontSize,
-        lineHeight: 1.5,
-        whiteSpace: "pre-wrap",
-      }}
+      className={
+        "max-w-[85%] whitespace-pre-wrap px-3.5 py-2.5 leading-normal " +
+        (small ? "text-[13.5px] " : "text-sm ") +
+        (mine
+          ? "self-end rounded-t-2xl rounded-bl-2xl rounded-br bg-deep text-[#253317]"
+          : "self-start rounded-t-2xl rounded-br-2xl rounded-bl bg-bg2 text-ink")
+      }
     >
       {text}
     </div>
@@ -113,21 +92,17 @@ export default function ChatWidget({
     if (e.key === "Enter") sendFromInput();
   };
 
-  const thread = (fontSize) => (
+  const thread = (small) => (
     <div
       ref={scrollRef}
-      style={{
-        flex: 1,
-        overflowY: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 10,
-        padding: mode === "inline" ? "16px 18px" : "14px 16px",
-      }}
+      className={
+        "flex flex-1 flex-col gap-2.5 overflow-y-auto " +
+        (small ? "px-4 py-3.5" : "px-[18px] py-4")
+      }
     >
-      <Bubble role="assistant" text={greeting} fontSize={fontSize} />
+      <Bubble role="assistant" text={greeting} small={small} />
       {msgs.map((m, i) => (
-        <Bubble key={i} role={m.role} text={m.text} fontSize={fontSize} />
+        <Bubble key={i} role={m.role} text={m.text} small={small} />
       ))}
       {busy && <Dots />}
     </div>
@@ -135,12 +110,9 @@ export default function ChatWidget({
 
   const inputRow = (small) => (
     <div
-      style={{
-        display: "flex",
-        gap: 8,
-        padding: small ? "10px 12px" : "12px 14px",
-        borderTop: "1px solid var(--m-line)",
-      }}
+      className={
+        "flex gap-2 border-t border-line " + (small ? "px-3 py-2.5" : "px-3.5 py-3")
+      }
     >
       <input
         ref={inputRef}
@@ -148,32 +120,18 @@ export default function ChatWidget({
         placeholder={
           small ? "What's on your mind?" : "Tell matchai what's on your mind…"
         }
-        style={{
-          flex: 1,
-          border: "1px solid var(--m-line)",
-          background: "var(--m-bg)",
-          borderRadius: 12,
-          padding: small ? "9px 13px" : "10px 14px",
-          fontFamily: SANS,
-          fontSize: small ? 13.5 : 14,
-          color: "var(--m-ink)",
-          outline: "none",
-        }}
+        className={
+          "flex-1 rounded-xl border border-line bg-bg font-sans text-ink outline-none " +
+          (small ? "px-3 py-2 text-[13.5px]" : "px-3.5 py-2.5 text-sm")
+        }
       />
       <button
         type="button"
         onClick={sendFromInput}
-        style={{
-          border: "none",
-          background: "var(--m-deep)",
-          color: "#253317",
-          borderRadius: 12,
-          padding: small ? "9px 15px" : "10px 16px",
-          fontFamily: SANS,
-          fontWeight: 600,
-          fontSize: small ? 13 : 13.5,
-          cursor: "pointer",
-        }}
+        className={
+          "cursor-pointer rounded-xl border-none bg-deep font-sans font-semibold text-[#253317] " +
+          (small ? "px-4 py-2 text-[13px]" : "px-4 py-2.5 text-[13.5px]")
+        }
       >
         Send
       </button>
@@ -183,83 +141,42 @@ export default function ChatWidget({
   if (mode === "inline") {
     return (
       <div
-        style={{
-          fontFamily: SANS,
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          height: "100%",
-          minHeight: flush ? 0 : 420,
-          background: flush
-            ? "color-mix(in srgb, var(--m-card) 82%, transparent)"
-            : "var(--m-card)",
-          border: flush ? "none" : "1px solid var(--m-line)",
-          borderRadius: flush ? 0 : 22,
-          overflow: "hidden",
-        }}
+        className={
+          "flex h-full w-full flex-col overflow-hidden font-sans " +
+          (flush
+            ? "min-h-0 border-none"
+            : "min-h-[420px] rounded-[22px] border border-line bg-card")
+        }
+        style={
+          flush
+            ? { background: "color-mix(in srgb, var(--m-card) 82%, transparent)" }
+            : undefined
+        }
       >
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "14px 18px",
-            borderBottom: "1px solid var(--m-line)",
-            background: "color-mix(in srgb, var(--m-bg2) 90%, transparent)",
-            backdropFilter: "blur(10px)",
-          }}
+          className="flex items-center gap-3 border-b border-line px-[18px] py-3.5 backdrop-blur"
+          style={{ background: "color-mix(in srgb, var(--m-bg2) 90%, transparent)" }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: 1,
-            }}
-          >
-            <div
-              style={{
-                fontFamily:
-                  "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
-                fontWeight: 600,
-                fontSize: 19,
-                color: "var(--m-ink)",
-              }}
-            >
+          <div className="flex flex-col items-start gap-px">
+            <div className="font-serif text-[19px] font-semibold text-ink">
               matchai
             </div>
-            <div style={{ fontSize: 12, color: "var(--m-soft)" }}>
+            <div className="text-xs text-soft">
               wellness chat, vent or relieve stress
             </div>
           </div>
         </div>
 
-        {thread(14)}
+        {thread(false)}
 
         {msgs.length === 0 && (
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 8,
-              padding: "0 18px 12px",
-            }}
-          >
+          <div className="flex flex-wrap gap-2 px-[18px] pb-3">
             {CHIPS.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => sendText(c)}
-                style={{
-                  border: "1px solid var(--m-line)",
-                  background: "var(--m-card)",
-                  color: "var(--m-soft)",
-                  borderRadius: 999,
-                  padding: "7px 13px",
-                  fontFamily: SANS,
-                  fontSize: 12.5,
-                  cursor: "pointer",
-                }}
+                className="cursor-pointer rounded-full border border-line bg-card px-3.5 py-[7px] font-sans text-[12.5px] text-soft"
               >
                 {c}
               </button>
@@ -269,14 +186,7 @@ export default function ChatWidget({
 
         {inputRow(false)}
 
-        <div
-          style={{
-            padding: "0 18px 10px",
-            fontSize: 10.5,
-            color: "var(--m-soft)",
-            opacity: 0.75,
-          }}
-        >
+        <div className="px-[18px] pb-2.5 text-[10.5px] text-soft opacity-75">
           matchai is not a replacement for therapy. In crisis? Call or text 988
           (U.S.).
         </div>
@@ -285,100 +195,34 @@ export default function ChatWidget({
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        right: 22,
-        bottom: 22,
-        zIndex: 900,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-end",
-        gap: 12,
-        fontFamily: SANS,
-      }}
-    >
+    <div className="fixed bottom-[22px] right-[22px] z-[900] flex flex-col items-end gap-3 font-sans">
       {open && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "min(370px, calc(100vw - 44px))",
-            height: "min(520px, calc(100vh - 120px))",
-            background: "var(--m-card)",
-            border: "1px solid var(--m-line)",
-            borderRadius: 22,
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              padding: "12px 16px",
-              borderBottom: "1px solid var(--m-line)",
-              background: "var(--m-bg2)",
-            }}
-          >
-            <div
-              style={{
-                fontFamily:
-                  "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
-                fontWeight: 600,
-                fontSize: 18,
-                color: "var(--m-ink)",
-              }}
-            >
+        <div className="flex h-[min(520px,calc(100vh-120px))] w-[min(370px,calc(100vw-44px))] flex-col overflow-hidden rounded-[22px] border border-line bg-card">
+          <div className="flex items-center gap-2.5 border-b border-line bg-bg2 px-4 py-3">
+            <div className="font-serif text-[18px] font-semibold text-ink">
               matchai
             </div>
-            <div style={{ fontSize: 11.5, color: "var(--m-soft)" }}>
-              here to listen
-            </div>
+            <div className="text-[11.5px] text-soft">here to listen</div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              style={{
-                marginLeft: "auto",
-                border: "none",
-                background: "none",
-                color: "var(--m-soft)",
-                fontSize: 16,
-                cursor: "pointer",
-                padding: "2px 6px",
-              }}
+              className="ml-auto cursor-pointer border-none bg-transparent px-1.5 py-0.5 text-base text-soft"
             >
               ✕
             </button>
           </div>
 
-          {thread(13.5)}
+          {thread(true)}
           {inputRow(true)}
 
-          <div
-            style={{
-              padding: "0 16px 9px",
-              fontSize: 10,
-              color: "var(--m-soft)",
-              opacity: 0.75,
-            }}
-          >
+          <div className="px-4 pb-2 text-[10px] text-soft opacity-75">
             Not a replacement for therapy. In crisis? Call or text 988 (U.S.).
           </div>
         </div>
       )}
 
       {!open && (
-        <div
-          style={{
-            background: "var(--m-card)",
-            border: "1px solid var(--m-line)",
-            borderRadius: "14px 14px 4px 14px",
-            padding: "8px 13px",
-            fontSize: 12.5,
-            color: "var(--m-ink)",
-          }}
-        >
+        <div className="rounded-t-[14px] rounded-bl-[14px] rounded-br border border-line bg-card px-3.5 py-2 text-[12.5px] text-ink">
           Want to talk? I'm right here.
         </div>
       )}
@@ -387,26 +231,9 @@ export default function ChatWidget({
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Chat with matchai"
-        style={{
-          position: "relative",
-          width: 64,
-          height: 64,
-          border: "none",
-          background: "none",
-          padding: 0,
-          color: "var(--m-accent)",
-          cursor: "pointer",
-        }}
+        className="relative h-16 w-16 cursor-pointer border-none bg-transparent p-0 text-accent"
       >
-        <span
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            display: "flex",
-          }}
-        >
+        <span className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2">
           <svg
             width="56"
             height="56"
