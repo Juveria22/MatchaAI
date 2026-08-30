@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./config.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<title>matchai</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'16'%20fill%3D'%234FB227'%2F%3E%3Cpath%20d%3D'M54%2030.5A22 22 0 0 1 30 52.9a24 24 0 0 1-8.7-1.6L9 56l4.8-13A21.5 21.5 0 0 1 10.6 30.5 22 22 0 0 1 32 8.5a22 22 0 0 1 22 22z'%20fill%3D'none'%20stroke%3D'%23F1F6EA'%20stroke-width%3D'5'%20stroke-linejoin%3D'round'%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+:root{--m-bg:#F8F4ED;--m-bg2:#F1E9DD;--m-card:#FFFDFA;--m-ink:#2B3527;--m-soft:#616D57;--m-accent:#5D7F45;--m-deep:#4C6B3C;--m-line:#E5DCCC;--m-blush:#C99298}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--m-bg)}
+a{color:var(--m-accent);text-decoration:none}a:hover{color:var(--m-ink)}
+@keyframes m-blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--m-ink)">
+  <div style="position:fixed;inset:0;z-index:0;pointer-events:none">
+    <img src="uploads/IMG_1588.JPG" alt="" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;opacity:.5;filter:saturate(.85)">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, color-mix(in srgb, var(--m-bg) 62%, transparent) 0%, color-mix(in srgb, var(--m-bg) 85%, transparent) 55%, color-mix(in srgb, var(--m-bg) 95%, transparent) 100%)"></div>
+  </div>
+  <div style="position:relative;z-index:1">
+  <nav style="position:fixed;top:0;left:50%;transform:translate(-50%,0);z-index:500;display:flex;align-items:center;justify-content:center;gap:26px;padding:13px 34px 14px;background:color-mix(in srgb, var(--m-bg) 88%, transparent);backdrop-filter:blur(16px);border:1px solid var(--m-line);border-top:none;border-radius:0 0 999px 999px;box-shadow:0 14px 34px -22px rgba(0,0,0,.4);max-width:calc(100vw - 24px)">
+    <a href="index.html" style="display:flex;align-items:center;gap:9px;font-family:'Parisienne',cursive;font-weight:400;font-size:30px;color:var(--m-ink)">
+      matchai
+    </a>
+    <div style="display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:500">
+      <a href="index.html" style="color:var(--m-ink)" style-hover="color:var(--m-accent)">Home</a>
+      <a href="matchai.html" style="color:var(--m-ink)" style-hover="color:var(--m-accent)">matchai</a>
+      <a href="play.html" style="color:var(--m-ink)" style-hover="color:var(--m-accent)">Play</a>
+      <a href="resources.html" style="color:var(--m-ink);border-bottom:2px solid var(--m-accent);padding-bottom:2px">Resources</a>
+    </div>
+      <button onClick="{{ toggleTheme }}" aria-label="Switch light or dark mode" title="Switch light or dark mode" style="margin-left:18px;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid var(--m-line);background:transparent;border-radius:999px;color:var(--m-ink);font-size:14px;line-height:1;cursor:pointer" style-hover="border-color:var(--m-accent);color:var(--m-accent)">{{ themeIcon }}</button>
+
+  </nav>
+
+  <section style="max-width:960px;margin:0 auto;padding:112px 32px 80px">
+    <h1 style="margin:0;font-family:'Parisienne',cursive;font-weight:400;letter-spacing:0;font-size:clamp(42px,5.6vw,66px);line-height:1.1">When you need more than matcha</h1>
+    <p style="margin:14px 0 30px;color:var(--m-soft);font-size:15.5px;line-height:1.65;max-width:640px;text-wrap:pretty">matchai is a nice place to vent and reset, but it isn't therapy. If you're in crisis or need real support, please reach out to one of these.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+      <div style="background:color-mix(in srgb, var(--m-card) 86%, transparent);backdrop-filter:blur(8px);border:1px solid var(--m-line);border-radius:18px;padding:22px 24px">
+        <div style="font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px">Emergency &amp; crisis lines</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:14px;line-height:1.5;color:var(--m-soft)">
+          <div><strong style="color:var(--m-ink)">911 (U.S.)</strong> for any life-threatening emergency</div>
+          <div><strong style="color:var(--m-ink)">988</strong> Suicide &amp; Crisis Lifeline, call or text, <a href="https://988lifeline.org" style="text-decoration:underline">988lifeline.org</a></div>
+          <div><strong style="color:var(--m-ink)">Crisis Text Line</strong> text HOME to 741741, free 24/7</div>
+          <div><strong style="color:var(--m-ink)">Veterans Crisis Line</strong> call 988, then press 1</div>
+          <div><strong style="color:var(--m-ink)">Trans Lifeline</strong> 877-565-8860, <a href="https://translifeline.org" style="text-decoration:underline">translifeline.org</a></div>
+        </div>
+      </div>
+      <div style="background:color-mix(in srgb, var(--m-card) 86%, transparent);backdrop-filter:blur(8px);border:1px solid var(--m-line);border-radius:18px;padding:22px 24px">
+        <div style="font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px">Professional &amp; self-care</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:14px;line-height:1.5;color:var(--m-soft)">
+          <div><a href="https://www.betterhelp.com" style="text-decoration:underline">BetterHelp</a> online therapy with licensed therapists</div>
+          <div><a href="https://www.talkspace.com" style="text-decoration:underline">Talkspace</a> therapy &amp; psychiatry by chat or video</div>
+          <div><a href="https://findahelpline.com" style="text-decoration:underline">Find a Helpline</a> global directory of hotlines</div>
+          <div><a href="https://openpathcollective.org" style="text-decoration:underline">Open Path Collective</a> affordable therapy sessions</div>
+          <div><a href="https://www.headspace.com" style="text-decoration:underline">Headspace</a> &amp; <a href="https://www.calm.com" style="text-decoration:underline">Calm</a> meditation &amp; sleep</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin:26px 0 0;font-size:13.5px;color:var(--m-soft)">matchai can help you pause, breathe, and sort through a rough day. For anything heavier, a real human is the right call.</p>
+  </section>
+
+  <footer style="border-top:1px solid var(--m-line)">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;max-width:960px;margin:0 auto;padding:26px 32px;font-size:13px;color:var(--m-soft)">
+      <span>© 2026 matchai, a small corner of calm on the internet</span>
+      <div style="display:flex;gap:18px;margin-left:auto">
+        <a href="index.html" style="color:var(--m-ink)" style-hover="color:var(--m-accent)">Home</a>
+        <a href="matchai.html" style="color:var(--m-ink)" style-hover="color:var(--m-accent)">matchai</a>
+        <a href="play.html" style="color:var(--m-ink)" style-hover="color:var(--m-accent)">Play</a>
+      </div>
+    </div>
+  </footer>
+
+  <dc-import name="ChatWidget" mode="floating" hint-size="88px,88px"></dc-import>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Linen&quot;,&quot;Dark Matcha&quot;],&quot;default&quot;:&quot;Linen&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  themeName() {
+    try { const s = localStorage.getItem('matchai-theme'); if (s) return s; } catch (e) {}
+    return this.props.palette ?? 'Linen';
+  }
+  toggleTheme() {
+    const next = this.themeName() === 'Linen' ? 'Dark Matcha' : 'Linen';
+    try { localStorage.setItem('matchai-theme', next); } catch (e) {}
+    this.applyPalette();
+    this.forceUpdate();
+  }
+  bindNavFade() {
+    const nav = document.querySelector('nav');
+    if (!nav || nav.__faded) return;
+    nav.__faded = true;
+    nav.style.willChange = 'transform, opacity';
+    nav.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), opacity .35s ease';
+    let last = window.scrollY || 0;
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const atTop = y <= 12;
+      const down = y > last + 2;
+      last = y;
+      const hide = !atTop && (down || y > 80);
+      nav.style.transform = hide ? 'translate(-50%, -108%)' : 'translate(-50%, 0)';
+      nav.style.opacity = hide ? '0' : '1';
+      nav.style.pointerEvents = hide ? 'none' : 'auto';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+  componentDidMount() {
+    this.bindNavFade(); this.applyPalette(); }
+  componentDidUpdate(prev) { if (prev.palette !== this.props.palette) this.applyPalette(); }
+  applyPalette() {
+    const P = {
+      'Linen': { bg:'#F8F4ED', bg2:'#F1E9DD', card:'#FFFDFA', ink:'#2B3527', soft:'#616D57', accent:'#5D7F45', deep:'#4C6B3C', line:'#E5DCCC', blush:'#C99298' },
+      'Dark Matcha': { bg:'#0E1A0A', bg2:'#14240E', card:'#182B11', ink:'#F1F6EA', soft:'#9CB187', accent:'#A9C98C', deep:'#6E9152', line:'#2A4420', blush:'#D18F8F' },
+    }[this.themeName()];
+    if (!P) return;
+    const r = document.documentElement.style;
+    Object.entries(P).forEach(([k, v]) => r.setProperty('--m-' + k, v));
+  }
+  renderVals() {
+    const theme = this.themeName();
+    return {
+      toggleTheme: () => this.toggleTheme(),
+      themeIcon: theme === 'Linen' ? '\u263E' : '\u2600',}; }
+}
+</script>
+</body>
+</html>

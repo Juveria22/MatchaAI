@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./config.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<title>matchai</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'14'%20fill%3D'%235E8A44'%2F%3E%3Ctext%20x%3D'31'%20y%3D'47'%20font-family%3D'Georgia%2Cserif'%20font-size%3D'46'%20font-weight%3D'700'%20fill%3D'%23EDE9DB'%20text-anchor%3D'middle'%3Em.%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:var(--m-accent,#5D7F45)}a:hover{color:var(--m-ink,#2B3527)}@keyframes m-dots{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}</style>
+</helmet>
+<sc-if value="{{ isInline }}" hint-placeholder-val="{{ true }}">
+  <div style="font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;display:flex;flex-direction:column;width:100%;height:100%;min-height:{{ shellMinHeight }};background:{{ shellBg }};border:{{ shellBorder }};border-radius:{{ shellRadius }};overflow:hidden;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+    <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--m-line,#E3DCC8);background:color-mix(in srgb, var(--m-bg2) 90%, transparent);backdrop-filter:blur(10px)">
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left">
+        <div style="font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-weight:600;font-size:19px;color:var(--m-ink,#2B3A26)">matchai</div>
+        <div style="font-size:12px;color:var(--m-soft,#6B7A5E)">wellness chat, vent or relieve stress</div>
+      </div>
+    </div>
+    <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:16px 18px" ref="{{ scrollRefA }}">
+      <div style="align-self:flex-start;max-width:85%;background:var(--m-bg2,#EFEADB);color:var(--m-ink,#2B3A26);padding:10px 14px;border-radius:16px 16px 16px 4px;font-size:14px;line-height:1.5">{{ greeting }}</div>
+      <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="0">
+        <div style="align-self:{{ m.align }};max-width:85%;background:{{ m.bg }};color:{{ m.color }};padding:10px 14px;border-radius:{{ m.radius }};font-size:14px;line-height:1.5;white-space:pre-wrap">{{ m.text }}</div>
+      </sc-for>
+      <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
+        <div style="align-self:flex-start;display:flex;gap:4px;background:var(--m-bg2,#EFEADB);padding:12px 14px;border-radius:16px 16px 16px 4px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--m-soft,#6B7A5E);animation:m-dots 1.2s infinite"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--m-soft,#6B7A5E);animation:m-dots 1.2s .2s infinite"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--m-soft,#6B7A5E);animation:m-dots 1.2s .4s infinite"></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ showChips }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 12px">
+        <button onClick="{{ chip1 }}" style="border:1px solid var(--m-line,#E3DCC8);background:var(--m-card,#F1F6EA);color:var(--m-soft,#6B7A5E);border-radius:999px;padding:7px 13px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12.5px;cursor:pointer">I'm feeling overwhelmed</button>
+        <button onClick="{{ chip2 }}" style="border:1px solid var(--m-line,#E3DCC8);background:var(--m-card,#F1F6EA);color:var(--m-soft,#6B7A5E);border-radius:999px;padding:7px 13px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12.5px;cursor:pointer">Help me unwind</button>
+        <button onClick="{{ chip3 }}" style="border:1px solid var(--m-line,#E3DCC8);background:var(--m-card,#F1F6EA);color:var(--m-soft,#6B7A5E);border-radius:999px;padding:7px 13px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12.5px;cursor:pointer">Guide me through a breath</button>
+      </div>
+    </sc-if>
+    <div style="display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--m-line,#E3DCC8)">
+      <input ref="{{ inputRefA }}" onKeyDown="{{ onKey }}" placeholder="Tell matchai what's on your mind…" style="flex:1;border:1px solid var(--m-line,#E3DCC8);background:var(--m-bg,#F5F2E9);border-radius:12px;padding:10px 14px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:var(--m-ink,#2B3A26);outline:none"></input>
+      <button onClick="{{ send }}" style="border:none;background:var(--m-deep,#4C6B3C);color:#253317;border-radius:12px;padding:10px 16px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:600;font-size:13.5px;cursor:pointer">Send</button>
+    </div>
+    <div style="padding:0 18px 10px;font-size:10.5px;color:var(--m-soft,#6B7A5E);opacity:.75">matchai is not a replacement for therapy. In crisis? Call or text 988 (U.S.).</div>
+  </div>
+</sc-if>
+<sc-if value="{{ isFloating }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;right:22px;bottom:22px;z-index:900;display:flex;flex-direction:column;align-items:flex-end;gap:12px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+    <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;display:flex;flex-direction:column;width:min(370px,calc(100vw - 44px));height:min(520px,calc(100vh - 120px));background:var(--m-card,#F1F6EA);border:1px solid var(--m-line,#E3DCC8);border-radius:22px;overflow:hidden">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--m-line,#E3DCC8);background:var(--m-bg2,#EFEADB)">
+          <div style="font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-weight:600;font-size:18px;color:var(--m-ink,#2B3A26)">matchai</div>
+          <div style="font-size:11.5px;color:var(--m-soft,#6B7A5E)">here to listen</div>
+          <button onClick="{{ toggle }}" style="margin-left:auto;border:none;background:none;color:var(--m-soft,#6B7A5E);font-size:16px;cursor:pointer;padding:2px 6px">✕</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:14px 16px" ref="{{ scrollRefB }}">
+          <div style="align-self:flex-start;max-width:85%;background:var(--m-bg2,#EFEADB);color:var(--m-ink,#2B3A26);padding:10px 14px;border-radius:16px 16px 16px 4px;font-size:13.5px;line-height:1.5">{{ greeting }}</div>
+          <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="0">
+            <div style="align-self:{{ m.align }};max-width:85%;background:{{ m.bg }};color:{{ m.color }};padding:10px 14px;border-radius:{{ m.radius }};font-size:13.5px;line-height:1.5;white-space:pre-wrap">{{ m.text }}</div>
+          </sc-for>
+          <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
+            <div style="align-self:flex-start;display:flex;gap:4px;background:var(--m-bg2,#EFEADB);padding:12px 14px;border-radius:16px 16px 16px 4px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--m-soft,#6B7A5E);animation:m-dots 1.2s infinite"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--m-soft,#6B7A5E);animation:m-dots 1.2s .2s infinite"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--m-soft,#6B7A5E);animation:m-dots 1.2s .4s infinite"></div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--m-line,#E3DCC8)">
+          <input ref="{{ inputRefB }}" onKeyDown="{{ onKey }}" placeholder="What's on your mind?" style="flex:1;border:1px solid var(--m-line,#E3DCC8);background:var(--m-bg,#F5F2E9);border-radius:12px;padding:9px 13px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:13.5px;color:var(--m-ink,#2B3A26);outline:none"></input>
+          <button onClick="{{ send }}" style="border:none;background:var(--m-deep,#4C6B3C);color:#253317;border-radius:12px;padding:9px 15px;font-family:'Jost',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:600;font-size:13px;cursor:pointer">Send</button>
+        </div>
+        <div style="padding:0 16px 9px;font-size:10px;color:var(--m-soft,#6B7A5E);opacity:.75">Not a replacement for therapy. In crisis? Call or text 988 (U.S.).</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
+      <div style="background:var(--m-card,#F1F6EA);border:1px solid var(--m-line,#E3DCC8);border-radius:14px 14px 4px 14px;padding:8px 13px;font-size:12.5px;color:var(--m-ink,#2B3A26)">Want to talk? I'm right here.</div>
+    </sc-if>
+    <button onClick="{{ toggle }}" aria-label="Chat with matchai" style="position:relative;width:64px;height:64px;border:none;background:none;padding:0;color:var(--m-accent,#7DA35C);cursor:pointer">
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;color:var(--m-accent,#7DA35C)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.3 9.3 0 0 1-3.3-.6L3 21l1.8-4.9A8.2 8.2 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"></path></svg></div>
+    </button>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:560},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;floating&quot;,&quot;inline&quot;],&quot;default&quot;:&quot;inline&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;greeting&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Hi, I'm matchai. Good to see you. What's on your mind today?&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;apiBase&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://matchaibackend.onrender.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Backend&quot;}}">
+class Component extends DCLogic {
+  state = { open: false, msgs: [], busy: false };
+  inputRefA = React.createRef();
+  inputRefB = React.createRef();
+  scrollRefA = React.createRef();
+  scrollRefB = React.createRef();
+  scrollDown() {
+    setTimeout(() => {
+      [this.scrollRefA, this.scrollRefB].forEach(r => { if (r.current) r.current.scrollTop = r.current.scrollHeight; });
+    }, 50);
+  }
+  apiBase() {
+    const b = (typeof window !== 'undefined' && window.MATCHAI_API_BASE) || this.props.apiBase || 'https://matchaibackend.onrender.com';
+    return String(b).replace(/\/+$/, '');
+  }
+  sessionId() {
+    let id = null;
+    try { id = localStorage.getItem('matchai-session-id'); } catch (e) {}
+    if (!id) {
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+      try { localStorage.setItem('matchai-session-id', id); } catch (e) {}
+    }
+    return id;
+  }
+  async askBackend(text) {
+    const res = await fetch(this.apiBase() + '/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: text, session_id: this.sessionId() }),
+    });
+    if (!res.ok) throw new Error('backend ' + res.status);
+    const data = await res.json();
+    const reply = data && (data.response || data.reply || data.message);
+    if (!reply) throw new Error('empty response');
+    return reply;
+  }
+  async sendText(text) {
+    if (!text || this.state.busy) return;
+    const msgs = [...this.state.msgs, { role: 'user', text }];
+    this.setState({ msgs, busy: true });
+    this.scrollDown();
+    try {
+      let reply;
+      try {
+        reply = await this.askBackend(text);
+      } catch (err) {
+        if (!(window.claude && window.claude.complete)) throw err;
+        reply = await this.previewReply(msgs);
+      }
+      this.setState({ msgs: [...msgs, { role: 'assistant', text: reply }], busy: false });
+    } catch (e) {
+      this.setState({ msgs: [...msgs, { role: 'assistant', text: "I'm having a little trouble reaching the server right now. Take a slow breath and try again in a moment. I'll be here." }], busy: false });
+    }
+    this.scrollDown();
+  }
+  async previewReply(msgs) {
+    return await window.claude.complete({
+        system: "You are matchai, a calm, friendly wellness companion on the matchai website. Write like a warm, grounded human, and never use em dashes. Be warm, calm, and brief (2-4 short sentences). Validate feelings, offer one small grounding suggestion at a time. You can suggest the site's calm games: Whisk the Matcha, Leaf Catch, Memory Match, Pearl Pop, Zen Garden, or the Breathing Cup. Never give medical advice; you are not a therapist. If someone mentions self-harm or crisis, gently urge them to call or text 988 (U.S.) or local emergency services. Occasionally use a soft tea metaphor, never more than one per reply. No emoji.",
+        messages: msgs.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })),
+      });
+  }
+  sendFromInput() {
+    const el = (this.inputRefA.current && document.contains(this.inputRefA.current)) ? this.inputRefA.current : this.inputRefB.current;
+    if (!el) return;
+    const t = el.value.trim();
+    el.value = '';
+    this.sendText(t);
+  }
+  renderVals() {
+    const mode = this.props.mode ?? 'floating';
+    const styled = this.state.msgs.map(m => m.role === 'user'
+      ? { text: m.text, align: 'flex-end', bg: 'var(--m-deep,#4C6B3C)', color: '#253317', radius: '16px 16px 4px 16px' }
+      : { text: m.text, align: 'flex-start', bg: 'var(--m-bg2,#EFEADB)', color: 'var(--m-ink,#2B3A26)', radius: '16px 16px 16px 4px' });
+    const flush = !!this.props.flush;
+    return {
+      shellBorder: flush ? 'none' : '1px solid var(--m-line,#E3DCC8)',
+      shellMinHeight: flush ? '0px' : '420px',
+      shellBg: flush ? 'color-mix(in srgb, var(--m-card) 82%, transparent)' : 'var(--m-card,#F1F6EA)',
+      shellRadius: flush ? '0px' : '22px',
+      isInline: mode === 'inline', isFloating: mode === 'floating',
+      open: this.state.open, closed: !this.state.open,
+      msgs: styled, busy: this.state.busy,
+      showChips: mode === 'inline' && this.state.msgs.length === 0,
+      greeting: this.props.greeting ?? "Hi, I'm matchai. Good to see you. What's on your mind today?",
+      inputRefA: this.inputRefA, inputRefB: this.inputRefB,
+      scrollRefA: this.scrollRefA, scrollRefB: this.scrollRefB,
+      toggle: () => this.setState(s => ({ open: !s.open })),
+      send: () => this.sendFromInput(),
+      onKey: (e) => { if (e.key === 'Enter') this.sendFromInput(); },
+      chip1: () => this.sendText("I'm feeling overwhelmed"),
+      chip2: () => this.sendText("Help me unwind"),
+      chip3: () => this.sendText("Guide me through a breath"),
+    };
+  }
+}
+</script>
+</body>
+</html>
