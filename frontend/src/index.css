@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* palette, swapped by src/theme.js */
 :root {
   --m-bg: #f8f4ed;
   --m-bg2: #f1e9dd;
@@ -10,89 +15,74 @@
   --m-blush: #c99298;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background: var(--m-bg);
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  color: var(--m-accent);
-  text-decoration: none;
-}
-a:hover {
-  color: var(--m-ink);
-}
-
-/* nav and card hovers */
-.m-navlink {
-  color: var(--m-ink);
-  transition: color 0.18s ease;
-}
-.m-navlink:hover {
-  color: var(--m-accent);
-}
-
-.m-themebtn:hover {
-  border-color: var(--m-accent);
-  color: var(--m-accent);
-}
-
-.m-tile {
-  transition: transform 0.18s ease, border-color 0.18s ease;
-}
-.m-gamecard:hover .m-tile {
-  transform: translateY(-3px);
-  border-color: var(--m-accent);
-}
-
-.m-cta-solid:hover {
-  background: var(--m-accent);
-  border-color: var(--m-accent);
-  color: var(--m-bg);
-}
-.m-cta-ghost:hover {
-  border-color: var(--m-accent);
-  color: var(--m-accent);
-}
-
-/* ritual card reveal */
-.m-reveal-strip {
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-.m-reveal:hover .m-reveal-strip {
-  transform: translateY(-100%);
-}
-
-/* half pill navbar fade */
-.m-nav {
-  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 0.35s ease;
-  will-change: transform, opacity;
-}
-.m-nav--hidden {
-  transform: translate(-50%, -108%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes m-dots {
-  0%,
-  80%,
-  100% {
-    opacity: 0.25;
-    transform: translateY(0);
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-  40% {
-    opacity: 1;
-    transform: translateY(-2px);
+  body {
+    @apply m-0 bg-bg antialiased;
+  }
+  a {
+    @apply text-accent no-underline;
+  }
+  a:hover {
+    @apply text-ink;
   }
 }
+
+@layer components {
+  /* half pill navbar, fades up on scroll down */
+  .m-nav {
+    @apply fixed top-0 left-1/2 z-[500] flex max-w-[calc(100vw-24px)] items-center justify-center gap-[26px] rounded-b-full border border-t-0 border-line px-[34px] pb-[14px] pt-[13px] backdrop-blur-lg;
+    background: color-mix(in srgb, var(--m-bg) 88%, transparent);
+    box-shadow: 0 14px 34px -22px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, 0);
+    transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+      opacity 0.35s ease;
+    will-change: transform, opacity;
+  }
+  .m-nav--hidden {
+    @apply pointer-events-none opacity-0;
+    transform: translate(-50%, -108%);
+  }
+
+  .m-navlink {
+    @apply text-ink transition-colors hover:text-accent;
+  }
+
+  .m-pill {
+    @apply cursor-pointer rounded-full border border-line bg-bg px-4 py-[7px] font-sans text-[13px] text-soft;
+  }
+
+  .m-btn {
+    @apply cursor-pointer rounded-full border-none bg-deep px-6 py-[10px] font-sans text-sm font-semibold text-[#253317];
+  }
+
+  .m-glass {
+    @apply rounded-[18px] border border-line backdrop-blur;
+    background: color-mix(in srgb, var(--m-card) 86%, transparent);
+  }
+
+  /* ritual card, image slides up to reveal the note */
+  .m-reveal-strip {
+    @apply absolute inset-0 flex flex-col;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .m-reveal:hover .m-reveal-strip {
+    transform: translateY(-100%);
+  }
+
+  /* game tile lifts on hover */
+  .m-tile {
+    @apply flex aspect-[5/4] items-center justify-center rounded-[9px] border border-line bg-[#D3DCB6] transition duration-200;
+  }
+  .m-gamecard:hover .m-tile {
+    @apply -translate-y-[3px] border-accent;
+  }
+}
+
+/* pearl pop uses these by name from inline animation shorthand */
 @keyframes m-rise {
   from {
     transform: translateY(0);

@@ -42,20 +42,35 @@ export async function askMatchai(text) {
   return reply;
 }
 
-// get /leaderboard -> [{ name, score }]
-export async function getLeaderboard() {
-  const res = await fetch(apiBase() + "/leaderboard");
+// get /leaderboard/{game} -> [{ name, score }]
+export async function getLeaderboard(game) {
+  const res = await fetch(apiBase() + "/leaderboard/" + game);
   if (!res.ok) throw new Error("backend " + res.status);
   return res.json();
 }
 
-// post /leaderboard -> top five
-export async function postScore(name, score) {
-  const res = await fetch(apiBase() + "/leaderboard", {
+// post /leaderboard/{game} -> top five
+export async function postScore(game, name, score) {
+  const res = await fetch(apiBase() + "/leaderboard/" + game, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, score }),
   });
   if (!res.ok) throw new Error("backend " + res.status);
   return res.json();
+}
+
+// remembers the name you last saved under
+export function savedName() {
+  try {
+    return localStorage.getItem("matchai-player") || "";
+  } catch (e) {
+    return "";
+  }
+}
+
+export function rememberName(name) {
+  try {
+    localStorage.setItem("matchai-player", name);
+  } catch (e) {}
 }
