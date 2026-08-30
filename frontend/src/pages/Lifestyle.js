@@ -2,25 +2,11 @@ import { Link } from "react-router-dom";
 import ChatWidget from "../components/ChatWidget";
 import { GameTiles } from "../components/GameTiles";
 
-const serif = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
-const script = "'Parisienne', cursive";
-const jost = "'Jost', sans-serif";
-
-const eyebrow = {
-  fontFamily: jost,
-  fontSize: 10.5,
-  fontWeight: 400,
-  letterSpacing: 3.4,
-  textTransform: "uppercase",
-  color: "var(--m-soft)",
-};
-
 const RITUALS = [
   {
     name: "The Pour",
     img: "/uploads/IMG_5307.JPG",
     alt: "Tall iced matcha topped with a dusting of matcha",
-    objectPosition: undefined,
     body:
       "Water and matcha meet here. In chanoyu, the tea ceremony, water is cooled to about 70 to 80°C before it touches the powder. Cooler water keeps the tea sweet and rounded; boiling water scorches it and turns it bitter.",
   },
@@ -28,7 +14,6 @@ const RITUALS = [
     name: "The Whisk",
     img: "/uploads/IMG_5296.JPG",
     alt: "Whisking matcha in a ceramic bowl",
-    objectPosition: undefined,
     body:
       'The chasen is cut from a single length of bamboo, a design refined in 16th-century Japan. Brisk "W" strokes fold air into the tea until it turns bright and frothy. Evenness, not speed, is the mark of a bowl made with care.',
   },
@@ -59,8 +44,7 @@ const JOURNAL = [
     alt: "Iced matcha topped with rose petals on a lace table",
     kicker: "mind, Cleveland Clinic",
     title: "The 4-7-8 breath, step by step",
-    body:
-      "A simple way to lengthen the exhale and settle the nervous system.",
+    body: "A simple way to lengthen the exhale and settle the nervous system.",
   },
   {
     href:
@@ -74,37 +58,18 @@ const JOURNAL = [
   },
 ];
 
+const EYEBROW = "font-sans text-[10.5px] uppercase tracking-[3.4px] text-soft";
+
 export default function Lifestyle() {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        fontFamily: serif,
-        color: "var(--m-ink)",
-      }}
-    >
-      {/* HERO */}
-      <section
-        style={{
-          position: "relative",
-          minHeight: "86vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          padding: "96px 32px 88px",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ position: "absolute", inset: 0 }}>
+    <div className="min-h-screen font-serif text-ink">
+      <section className="relative flex min-h-[86vh] flex-col items-center justify-center overflow-hidden px-8 pb-[88px] pt-24 text-center">
+        <div className="absolute inset-0">
           <img
             src="/uploads/IMG_5105.JPG"
             alt="A glass of iced matcha ringed with pink roses"
+            className="h-full w-full object-cover"
             style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
               objectPosition: "100% 30%",
               transform: "scale(1.05) translateX(-2%)",
               filter: "saturate(1.2) contrast(1.06) brightness(1.05)",
@@ -112,41 +77,19 @@ export default function Lifestyle() {
           />
         </div>
         <div
+          className="absolute inset-0"
           style={{
-            position: "absolute",
-            inset: 0,
             background:
               "linear-gradient(180deg, rgba(48,40,32,.4) 0%, rgba(48,40,32,.22) 40%, color-mix(in srgb, var(--m-bg) 82%, transparent) 100%)",
           }}
         />
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            maxWidth: 1140,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: jost,
-              fontSize: 11,
-              letterSpacing: 4.5,
-              textTransform: "uppercase",
-              color: "#F3E7DA",
-            }}
-          >
+        <div className="relative flex max-w-[1140px] flex-col items-center">
+          <div className="font-sans text-[11px] uppercase tracking-[4.5px] text-[#F3E7DA]">
             mind over matter
           </div>
           <h1
+            className="mt-[18px] font-script text-[clamp(52px,7.4vw,104px)] leading-[1.06] text-white"
             style={{
-              margin: "18px 0 0",
-              fontFamily: script,
-              fontWeight: 400,
-              fontSize: "clamp(52px, 7.4vw, 104px)",
-              lineHeight: 1.06,
-              color: "#FFFFFF",
               textWrap: "balance",
               textShadow: "0 2px 30px rgba(0,0,0,.35)",
             }}
@@ -154,60 +97,24 @@ export default function Lifestyle() {
             A living practice for a calmer mind
           </h1>
           <p
+            className="mt-[22px] max-w-[46ch] text-[21px] italic leading-[1.55] text-[rgba(255,252,246,.94)]"
             style={{
-              margin: "22px 0 0",
-              maxWidth: "46ch",
-              fontSize: 21,
-              lineHeight: 1.55,
-              fontStyle: "italic",
-              color: "rgba(255,252,246,.94)",
               textShadow: "0 1px 18px rgba(0,0,0,.4)",
               textWrap: "pretty",
             }}
           >
             Enjoy articles, mini games, and small breaks with matchai.
           </p>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: 12,
-              marginTop: 38,
-            }}
-          >
+          <div className="mt-[38px] flex flex-wrap justify-center gap-3">
             <a
               href="#ritual"
-              className="m-cta-solid"
-              style={{
-                background: "var(--m-deep)",
-                border: "1.5px solid var(--m-deep)",
-                color: "#253317",
-                borderRadius: 999,
-                padding: "14px 32px",
-                fontFamily: jost,
-                fontSize: 11.5,
-                letterSpacing: 2.6,
-                textTransform: "uppercase",
-              }}
+              className="rounded-full border-[1.5px] border-deep bg-deep px-8 py-3.5 font-sans text-[11.5px] uppercase tracking-[2.6px] text-[#253317] transition-colors hover:border-accent hover:bg-accent hover:text-bg"
             >
               Begin the ritual
             </a>
             <Link
               to="/matchai"
-              className="m-cta-ghost"
-              style={{
-                border: "1.5px solid rgba(255,255,255,.85)",
-                color: "#FFFFFF",
-                background: "rgba(40,34,28,.52)",
-                backdropFilter: "blur(6px)",
-                borderRadius: 999,
-                padding: "14px 32px",
-                fontFamily: jost,
-                fontSize: 11.5,
-                letterSpacing: 2.6,
-                textTransform: "uppercase",
-              }}
+              className="rounded-full border-[1.5px] border-white/85 bg-[rgba(40,34,28,.52)] px-8 py-3.5 font-sans text-[11.5px] uppercase tracking-[2.6px] text-white backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
             >
               Talk to matchai
             </Link>
@@ -215,130 +122,46 @@ export default function Lifestyle() {
         </div>
       </section>
 
-      {/* RITUAL */}
-      <section
-        id="ritual"
-        style={{ maxWidth: 1140, margin: "0 auto", padding: "84px 32px 40px" }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <div style={eyebrow}>the ritual</div>
-          <h2
-            style={{
-              margin: "10px 0 0",
-              fontFamily: script,
-              fontWeight: 400,
-              fontSize: "clamp(40px, 5.2vw, 66px)",
-              lineHeight: 1.12,
-            }}
-          >
+      <section id="ritual" className="mx-auto max-w-[1140px] px-8 pb-10 pt-[84px]">
+        <div className="text-center">
+          <div className={EYEBROW}>the ritual</div>
+          <h2 className="mt-2.5 font-script text-[clamp(40px,5.2vw,66px)] leading-[1.12]">
             A few slow minutes, every day
           </h2>
           <p
-            style={{
-              margin: "14px auto 0",
-              maxWidth: "50ch",
-              color: "var(--m-soft)",
-              fontSize: 18,
-              lineHeight: 1.7,
-              textWrap: "pretty",
-            }}
+            className="mx-auto mt-3.5 max-w-[50ch] text-lg leading-[1.7] text-soft"
+            style={{ textWrap: "pretty" }}
           >
             Three slow steps that turn making a drink into an actual break.
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 22,
-            marginTop: 48,
-          }}
-        >
+        <div className="mt-12 grid grid-cols-3 gap-[22px]">
           {RITUALS.map((r) => (
             <div key={r.name}>
-              <div
-                className="m-reveal"
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  aspectRatio: "2 / 3",
-                  borderRadius: 4,
-                  overflow: "hidden",
-                  cursor: "pointer",
-                }}
-              >
-                <div
-                  className="m-reveal-strip"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
+              <div className="m-reveal relative aspect-[2/3] w-full cursor-pointer overflow-hidden rounded">
+                <div className="m-reveal-strip">
                   <img
                     src={r.img}
                     alt={r.alt}
                     loading="lazy"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      flex: "none",
-                      objectFit: "cover",
-                      objectPosition: r.objectPosition,
-                    }}
+                    className="h-full w-full flex-none object-cover"
+                    style={{ objectPosition: r.objectPosition }}
                   />
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      flex: "none",
-                      boxSizing: "border-box",
-                      background: "var(--m-card)",
-                      border: "1px solid var(--m-line)",
-                      padding: "34px 30px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      gap: 14,
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: jost,
-                        fontSize: 10,
-                        letterSpacing: 2.8,
-                        textTransform: "uppercase",
-                        color: "var(--m-soft)",
-                      }}
-                    >
+                  <div className="flex h-full w-full flex-none flex-col justify-center gap-3.5 border border-line bg-card px-[30px] py-[34px] box-border">
+                    <div className="font-sans text-[10px] uppercase tracking-[2.8px] text-soft">
                       why it matters
                     </div>
                     <p
-                      style={{
-                        margin: 0,
-                        fontSize: "clamp(16px, 1.5vw, 19.5px)",
-                        lineHeight: 1.72,
-                        color: "var(--m-ink)",
-                        textWrap: "pretty",
-                      }}
+                      className="m-0 text-[clamp(16px,1.5vw,19.5px)] leading-[1.72] text-ink"
+                      style={{ textWrap: "pretty" }}
                     >
                       {r.body}
                     </p>
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  marginTop: 16,
-                  textAlign: "center",
-                  fontSize: 27,
-                  fontWeight: 500,
-                  fontStyle: "italic",
-                  letterSpacing: 0.2,
-                }}
-              >
+              <div className="mt-4 text-center text-[27px] font-medium italic tracking-[.2px]">
                 {r.name}
               </div>
             </div>
@@ -346,90 +169,37 @@ export default function Lifestyle() {
         </div>
       </section>
 
-      {/* JOURNAL */}
-      <section
-        style={{ maxWidth: 1140, margin: "0 auto", padding: "64px 32px" }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <div style={eyebrow}>the journal</div>
-          <h2
-            style={{
-              margin: "10px 0 0",
-              fontFamily: script,
-              fontWeight: 400,
-              fontSize: "clamp(36px, 4.6vw, 56px)",
-              lineHeight: 1.12,
-            }}
-          >
+      <section className="mx-auto max-w-[1140px] px-8 py-16">
+        <div className="text-center">
+          <div className={EYEBROW}>the journal</div>
+          <h2 className="mt-2.5 font-script text-[clamp(36px,4.6vw,56px)] leading-[1.12]">
             Notes on slow living
           </h2>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 22,
-            marginTop: 32,
-          }}
-        >
+        <div className="mt-8 grid grid-cols-3 gap-[22px]">
           {JOURNAL.map((a) => (
             <a
               key={a.href}
               href={a.href}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                display: "block",
-                background: "var(--m-card)",
-                border: "1px solid var(--m-line)",
-                borderRadius: 4,
-                overflow: "hidden",
-                color: "var(--m-ink)",
-              }}
+              className="block overflow-hidden rounded border border-line bg-card text-ink"
             >
               <img
                 src={a.img}
                 alt={a.alt}
                 loading="lazy"
-                style={{
-                  display: "block",
-                  width: "100%",
-                  aspectRatio: "3 / 2",
-                  objectFit: "cover",
-                  objectPosition: a.objectPosition,
-                }}
+                className="block aspect-[3/2] w-full object-cover"
+                style={{ objectPosition: a.objectPosition }}
               />
-              <div style={{ padding: "22px 22px 26px", textAlign: "center" }}>
-                <div
-                  style={{
-                    fontFamily: jost,
-                    fontSize: 10,
-                    letterSpacing: 2.4,
-                    textTransform: "uppercase",
-                    color: "var(--m-soft)",
-                  }}
-                >
+              <div className="px-[22px] pb-[26px] pt-[22px] text-center">
+                <div className="font-sans text-[10px] uppercase tracking-[2.4px] text-soft">
                   {a.kicker}
                 </div>
-                <div
-                  style={{
-                    marginTop: 8,
-                    fontFamily: serif,
-                    fontSize: 27,
-                    fontWeight: 500,
-                    lineHeight: 1.22,
-                  }}
-                >
+                <div className="mt-2 font-serif text-[27px] font-medium leading-[1.22]">
                   {a.title}
                 </div>
-                <p
-                  style={{
-                    margin: "9px 0 0",
-                    fontSize: 15.5,
-                    lineHeight: 1.55,
-                    color: "var(--m-soft)",
-                  }}
-                >
+                <p className="mt-2.5 text-[15.5px] leading-[1.55] text-soft">
                   {a.body}
                 </p>
               </div>
@@ -438,114 +208,40 @@ export default function Lifestyle() {
         </div>
       </section>
 
-      {/* LITTLE GAMES */}
-      <section
-        style={{
-          background: "var(--m-bg2)",
-          borderTop: "1px solid var(--m-line)",
-          borderBottom: "1px solid var(--m-line)",
-        }}
-      >
-        <div
-          style={{ maxWidth: 1140, margin: "0 auto", padding: "58px 32px 62px" }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <h2
-              style={{
-                margin: 0,
-                fontFamily: jost,
-                fontWeight: 600,
-                fontSize: 24,
-                letterSpacing: -0.2,
-              }}
-            >
+      <section className="border-y border-line bg-bg2">
+        <div className="mx-auto max-w-[1140px] px-8 pb-[62px] pt-[58px]">
+          <div className="flex items-center gap-3.5">
+            <h2 className="font-sans text-2xl font-semibold tracking-[-.2px]">
               Little Games
             </h2>
-            <Link
-              to="/play"
-              style={{
-                fontFamily: jost,
-                fontSize: 13,
-                fontWeight: 500,
-                color: "var(--m-accent)",
-              }}
-            >
+            <Link to="/play" className="font-sans text-[13px] font-medium text-accent">
               See All
             </Link>
-            <span
-              style={{
-                marginLeft: "auto",
-                fontFamily: jost,
-                fontSize: 12,
-                color: "var(--m-soft)",
-              }}
-            >
-              6 games
-            </span>
+            <span className="ml-auto font-sans text-xs text-soft">6 games</span>
           </div>
           <GameTiles LinkComponent={Link} />
         </div>
       </section>
 
-      {/* CHAT */}
-      <section
-        style={{ maxWidth: 1000, margin: "0 auto", padding: "76px 32px 84px" }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <div style={eyebrow}>matchai</div>
-          <h2
-            style={{
-              margin: "10px 0 0",
-              fontFamily: script,
-              fontWeight: 400,
-              fontSize: "clamp(38px, 4.8vw, 58px)",
-              lineHeight: 1.14,
-            }}
-          >
+      <section className="mx-auto max-w-[1000px] px-8 pb-[84px] pt-[76px]">
+        <div className="flex flex-col items-center text-center">
+          <div className={EYEBROW}>matchai</div>
+          <h2 className="mt-2.5 font-script text-[clamp(38px,4.8vw,58px)] leading-[1.14]">
             matchai, whenever you need it
           </h2>
           <p
-            style={{
-              margin: "16px 0 0",
-              maxWidth: "48ch",
-              fontSize: 19,
-              lineHeight: 1.7,
-              fontStyle: "italic",
-              color: "var(--m-soft)",
-              textWrap: "pretty",
-            }}
+            className="mt-4 max-w-[48ch] text-[19px] italic leading-[1.7] text-soft"
+            style={{ textWrap: "pretty" }}
           >
             matchai is a chat away on every page. Bring a messy thought, a rough
             afternoon, or nothing at all.
           </p>
-          <div
-            style={{
-              display: "grid",
-              width: "100%",
-              maxWidth: 680,
-              minHeight: 520,
-              marginTop: 34,
-            }}
-          >
+          <div className="mt-[34px] grid min-h-[520px] w-full max-w-[680px]">
             <ChatWidget mode="inline" />
           </div>
-          <p
-            style={{
-              margin: "18px 0 0",
-              fontSize: 12,
-              color: "var(--m-soft)",
-              opacity: 0.8,
-            }}
-          >
+          <p className="mt-[18px] text-xs text-soft opacity-80">
             Not a replacement for therapy or professional care. In crisis, see{" "}
-            <Link to="/resources" style={{ textDecoration: "underline" }}>
+            <Link to="/resources" className="underline">
               resources
             </Link>
             .
@@ -553,35 +249,11 @@ export default function Lifestyle() {
         </div>
       </section>
 
-      <footer
-        style={{
-          borderTop: "1px solid var(--m-line)",
-          background: "var(--m-bg2)",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 12,
-            maxWidth: 1140,
-            margin: "0 auto",
-            padding: 38,
-            fontFamily: jost,
-            fontSize: 12,
-            letterSpacing: 1.2,
-            color: "var(--m-soft)",
-            textAlign: "center",
-          }}
-        >
-          <span
-            style={{ fontFamily: script, fontSize: 30, color: "var(--m-ink)" }}
-          >
-            matchai
-          </span>
+      <footer className="border-t border-line bg-bg2">
+        <div className="mx-auto flex max-w-[1140px] flex-col items-center gap-3 p-[38px] text-center font-sans text-xs tracking-[1.2px] text-soft">
+          <span className="font-script text-[30px] text-ink">matchai</span>
           <span>© 2026, made for slow days</span>
-          <div style={{ display: "flex", gap: 18 }}>
+          <div className="flex gap-[18px]">
             <Link to="/matchai" className="m-navlink">
               matchai
             </Link>

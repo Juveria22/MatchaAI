@@ -1,180 +1,111 @@
 import { Link } from "react-router-dom";
 import ChatWidget from "../components/ChatWidget";
 
-const jost = "'Jost', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
-const script = "'Parisienne', cursive";
-
-const card = {
-  background: "color-mix(in srgb, var(--m-card) 86%, transparent)",
-  backdropFilter: "blur(8px)",
-  border: "1px solid var(--m-line)",
-  borderRadius: 18,
-  padding: "22px 24px",
-};
-
-const list = {
-  display: "flex",
-  flexDirection: "column",
-  gap: 9,
-  fontSize: 14,
-  lineHeight: 1.5,
-  color: "var(--m-soft)",
-};
-
-const strong = { color: "var(--m-ink)" };
-const ul = { textDecoration: "underline" };
+const LIST = "flex flex-col gap-[9px] text-sm leading-normal text-soft";
+const NAME = "text-ink font-semibold";
 
 export default function Resources() {
   return (
-    <div
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        fontFamily: jost,
-        color: "var(--m-ink)",
-      }}
-    >
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+    <div className="relative min-h-screen font-sans text-ink">
+      <div className="pointer-events-none fixed inset-0 z-0">
         <img
           src="/uploads/IMG_1588.JPG"
           alt=""
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.5,
-            filter: "saturate(.85)",
-          }}
+          className="h-full w-full object-cover opacity-50"
+          style={{ filter: "saturate(.85)" }}
         />
         <div
+          className="absolute inset-0"
           style={{
-            position: "absolute",
-            inset: 0,
             background:
               "linear-gradient(180deg, color-mix(in srgb, var(--m-bg) 62%, transparent) 0%, color-mix(in srgb, var(--m-bg) 85%, transparent) 55%, color-mix(in srgb, var(--m-bg) 95%, transparent) 100%)",
           }}
         />
       </div>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <section
-          style={{ maxWidth: 960, margin: "0 auto", padding: "112px 32px 80px" }}
-        >
-          <h1
-            style={{
-              margin: 0,
-              fontFamily: script,
-              fontWeight: 400,
-              fontSize: "clamp(42px, 5.6vw, 66px)",
-              lineHeight: 1.1,
-            }}
-          >
+      <div className="relative z-[1]">
+        <section className="mx-auto max-w-[960px] px-8 pb-20 pt-[112px]">
+          <h1 className="font-script text-[clamp(42px,5.6vw,66px)] leading-tight">
             When you need more than matcha
           </h1>
           <p
-            style={{
-              margin: "14px 0 30px",
-              color: "var(--m-soft)",
-              fontSize: 15.5,
-              lineHeight: 1.65,
-              maxWidth: 640,
-              textWrap: "pretty",
-            }}
+            className="mb-[30px] mt-3.5 max-w-[640px] text-[15.5px] leading-[1.65] text-soft"
+            style={{ textWrap: "pretty" }}
           >
             matchai is a nice place to vent and reset, but it isn't therapy. If
             you're in crisis or need real support, please reach out to one of
             these.
           </p>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: 16,
-            }}
-          >
-            <div style={card}>
-              <div
-                style={{
-                  fontFamily: jost,
-                  fontWeight: 700,
-                  fontSize: 16,
-                  marginBottom: 12,
-                }}
-              >
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+            <div className="m-glass px-6 py-[22px]">
+              <div className="mb-3 font-sans text-base font-bold">
                 Emergency &amp; crisis lines
               </div>
-              <div style={list}>
+              <div className={LIST}>
                 <div>
-                  <strong style={strong}>911 (U.S.)</strong> for any
+                  <strong className={NAME}>911 (U.S.)</strong> for any
                   life-threatening emergency
                 </div>
                 <div>
-                  <strong style={strong}>988</strong> Suicide &amp; Crisis
+                  <strong className={NAME}>988</strong> Suicide &amp; Crisis
                   Lifeline, call or text,{" "}
-                  <a href="https://988lifeline.org" style={ul}>
+                  <a href="https://988lifeline.org" className="underline">
                     988lifeline.org
                   </a>
                 </div>
                 <div>
-                  <strong style={strong}>Crisis Text Line</strong> text HOME to
+                  <strong className={NAME}>Crisis Text Line</strong> text HOME to
                   741741, free 24/7
                 </div>
                 <div>
-                  <strong style={strong}>Veterans Crisis Line</strong> call 988,
-                  then press 1
+                  <strong className={NAME}>Veterans Crisis Line</strong> call
+                  988, then press 1
                 </div>
                 <div>
-                  <strong style={strong}>Trans Lifeline</strong> 877-565-8860,{" "}
-                  <a href="https://translifeline.org" style={ul}>
+                  <strong className={NAME}>Trans Lifeline</strong> 877-565-8860,{" "}
+                  <a href="https://translifeline.org" className="underline">
                     translifeline.org
                   </a>
                 </div>
               </div>
             </div>
 
-            <div style={card}>
-              <div
-                style={{
-                  fontFamily: jost,
-                  fontWeight: 700,
-                  fontSize: 16,
-                  marginBottom: 12,
-                }}
-              >
+            <div className="m-glass px-6 py-[22px]">
+              <div className="mb-3 font-sans text-base font-bold">
                 Professional &amp; self-care
               </div>
-              <div style={list}>
+              <div className={LIST}>
                 <div>
-                  <a href="https://www.betterhelp.com" style={ul}>
+                  <a href="https://www.betterhelp.com" className="underline">
                     BetterHelp
                   </a>{" "}
                   online therapy with licensed therapists
                 </div>
                 <div>
-                  <a href="https://www.talkspace.com" style={ul}>
+                  <a href="https://www.talkspace.com" className="underline">
                     Talkspace
                   </a>{" "}
                   therapy &amp; psychiatry by chat or video
                 </div>
                 <div>
-                  <a href="https://findahelpline.com" style={ul}>
+                  <a href="https://findahelpline.com" className="underline">
                     Find a Helpline
                   </a>{" "}
                   global directory of hotlines
                 </div>
                 <div>
-                  <a href="https://openpathcollective.org" style={ul}>
+                  <a href="https://openpathcollective.org" className="underline">
                     Open Path Collective
                   </a>{" "}
                   affordable therapy sessions
                 </div>
                 <div>
-                  <a href="https://www.headspace.com" style={ul}>
+                  <a href="https://www.headspace.com" className="underline">
                     Headspace
                   </a>{" "}
                   &amp;{" "}
-                  <a href="https://www.calm.com" style={ul}>
+                  <a href="https://www.calm.com" className="underline">
                     Calm
                   </a>{" "}
                   meditation &amp; sleep
@@ -183,28 +114,16 @@ export default function Resources() {
             </div>
           </div>
 
-          <p style={{ margin: "26px 0 0", fontSize: 13.5, color: "var(--m-soft)" }}>
+          <p className="mt-[26px] text-[13.5px] text-soft">
             matchai can help you pause, breathe, and sort through a rough day.
             For anything heavier, a real human is the right call.
           </p>
         </section>
 
-        <footer style={{ borderTop: "1px solid var(--m-line)" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 20,
-              flexWrap: "wrap",
-              maxWidth: 960,
-              margin: "0 auto",
-              padding: "26px 32px",
-              fontSize: 13,
-              color: "var(--m-soft)",
-            }}
-          >
+        <footer className="border-t border-line">
+          <div className="mx-auto flex max-w-[960px] flex-wrap items-center gap-5 px-8 py-[26px] text-[13px] text-soft">
             <span>© 2026 matchai, a small corner of calm on the internet</span>
-            <div style={{ display: "flex", gap: 18, marginLeft: "auto" }}>
+            <div className="ml-auto flex gap-[18px]">
               <Link to="/" className="m-navlink">
                 Home
               </Link>

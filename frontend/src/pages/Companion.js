@@ -2,60 +2,24 @@ import ChatWidget from "../components/ChatWidget";
 
 export default function Companion() {
   return (
-    <div
-      style={{
-        position: "relative",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        fontFamily: "'Jost', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif",
-        color: "var(--m-ink)",
-      }}
-    >
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-      >
+    <div className="relative flex h-screen flex-col overflow-hidden font-sans text-ink">
+      <div className="pointer-events-none fixed inset-0 z-0">
         <img
           src="/uploads/IMG_5105.JPG"
           alt=""
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.5,
-            filter: "saturate(.85)",
-          }}
+          className="h-full w-full object-cover opacity-50"
+          style={{ filter: "saturate(.85)" }}
         />
         <div
+          className="absolute inset-0"
           style={{
-            position: "absolute",
-            inset: 0,
             background:
               "linear-gradient(180deg, color-mix(in srgb, var(--m-bg) 62%, transparent) 0%, color-mix(in srgb, var(--m-bg) 85%, transparent) 55%, color-mix(in srgb, var(--m-bg) 95%, transparent) 100%)",
           }}
         />
       </div>
 
-      <section
-        style={{
-          paddingTop: 64,
-          position: "relative",
-          zIndex: 1,
-          flex: 1,
-          display: "grid",
-          gridTemplateRows: "1fr",
-          gridTemplateColumns: "100%",
-          width: "100%",
-          minHeight: 0,
-          overflow: "hidden",
-        }}
-      >
+      <section className="relative z-[1] grid min-h-0 w-full flex-1 grid-cols-[100%] grid-rows-1 overflow-hidden pt-16">
         <ChatWidget mode="inline" flush />
       </section>
     </div>

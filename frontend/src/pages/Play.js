@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ChatWidget from "../components/ChatWidget";
+import Leaderboard, { SCORING } from "../components/Leaderboard";
 import { GameTiles, GAME_BY_ID } from "../components/GameTiles";
 import WhiskGame from "../games/WhiskGame";
 import LeafCatch from "../games/LeafCatch";
@@ -8,9 +9,6 @@ import MemoryMatch from "../games/MemoryMatch";
 import PearlPop from "../games/PearlPop";
 import ZenGarden from "../games/ZenGarden";
 import BreathingCup from "../games/BreathingCup";
-
-const jost = "'Jost', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
-const script = "'Parisienne', cursive";
 
 const SOON = [
   {
@@ -39,11 +37,11 @@ const SOON = [
   },
 ];
 
-function GameBoard({ id, pace }) {
-  if (id === "whisk") return <WhiskGame />;
-  if (id === "catch") return <LeafCatch pace={pace} />;
-  if (id === "memory") return <MemoryMatch />;
-  if (id === "pearl") return <PearlPop pace={pace} />;
+function GameBoard({ id, pace, onFinish }) {
+  if (id === "whisk") return <WhiskGame onFinish={onFinish} />;
+  if (id === "catch") return <LeafCatch pace={pace} onFinish={onFinish} />;
+  if (id === "memory") return <MemoryMatch onFinish={onFinish} />;
+  if (id === "pearl") return <PearlPop pace={pace} onFinish={onFinish} />;
   if (id === "zen") return <ZenGarden />;
   if (id === "breath") return <BreathingCup />;
   return null;
@@ -52,284 +50,130 @@ function GameBoard({ id, pace }) {
 export default function Play({ pace = 1 }) {
   const { hash } = useLocation();
   const [game, setGame] = useState(null);
+  const [score, setScore] = useState(null);
 
   // /play#whisk opens a game straight away, the home page links like that
   useEffect(() => {
     const h = (hash || "").replace("#", "");
-    if (GAME_BY_ID(h)) setGame(h);
+    if (GAME_BY_ID(h)) {
+      setGame(h);
+      setScore(null);
+    }
   }, [hash]);
 
+  const open = (id) => {
+    setGame(id);
+    setScore(null);
+  };
+
   const meta = game ? GAME_BY_ID(game) : null;
+  const scorable = game ? !!SCORING[game] : false;
 
   return (
-    <div
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        fontFamily: jost,
-        color: "var(--m-ink)",
-      }}
-    >
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+    <div className="relative min-h-screen font-sans text-ink">
+      <div className="pointer-events-none fixed inset-0 z-0">
         <img
           src="/uploads/IMG_6739.JPG"
           alt=""
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.5,
-            filter: "saturate(.85)",
-          }}
+          className="h-full w-full object-cover opacity-50"
+          style={{ filter: "saturate(.85)" }}
         />
         <div
+          className="absolute inset-0"
           style={{
-            position: "absolute",
-            inset: 0,
             background:
               "linear-gradient(180deg, color-mix(in srgb, var(--m-bg) 62%, transparent) 0%, color-mix(in srgb, var(--m-bg) 85%, transparent) 55%, color-mix(in srgb, var(--m-bg) 95%, transparent) 100%)",
           }}
         />
       </div>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <header
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "110px 24px 10px",
-          }}
-        >
-          <h1
-            style={{
-              margin: 0,
-              fontFamily: script,
-              fontWeight: 400,
-              fontSize: "clamp(42px, 6vw, 68px)",
-              lineHeight: 1.1,
-            }}
-          >
+      <div className="relative z-[1]">
+        <header className="flex flex-col items-center px-6 pb-2.5 pt-[110px] text-center">
+          <h1 className="font-script text-[clamp(42px,6vw,68px)] leading-tight">
             The Calm Corner
           </h1>
-          <p
-            style={{
-              margin: "10px 0 0",
-              color: "var(--m-soft)",
-              fontSize: 16,
-              maxWidth: 520,
-            }}
-          >
-            Six small games. No timers, no scores, no way to lose.
+          <p className="mt-2.5 max-w-[520px] text-base text-soft">
+            Six small games. Four keep a score, two never will.
           </p>
         </header>
 
         {meta && (
-          <section style={{ maxWidth: 720, margin: "26px auto 0", padding: "0 24px" }}>
+          <section className="mx-auto mt-[26px] max-w-[720px] px-6">
             <div
+              className="rounded-3xl border border-line px-[22px] pb-6 pt-5 backdrop-blur-md"
               style={{
                 background: "color-mix(in srgb, var(--m-card) 92%, transparent)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid var(--m-line)",
-                borderRadius: 24,
-                padding: "20px 22px 24px",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: 14,
-                  marginBottom: 14,
-                }}
-              >
+              <div className="mb-3.5 flex items-baseline gap-3.5">
                 <button
                   type="button"
                   onClick={() => setGame(null)}
-                  style={{
-                    border: "1px solid var(--m-line)",
-                    background: "var(--m-bg)",
-                    color: "var(--m-soft)",
-                    borderRadius: 999,
-                    padding: "7px 14px",
-                    fontFamily: jost,
-                    fontSize: 13,
-                    cursor: "pointer",
-                  }}
+                  className="m-pill"
                 >
                   ← all games
                 </button>
-                <h2
-                  style={{
-                    margin: 0,
-                    fontFamily: script,
-                    fontWeight: 400,
-                    fontSize: 30,
-                    lineHeight: 1.1,
-                  }}
-                >
+                <h2 className="font-script text-[30px] leading-tight">
                   {meta.title}
                 </h2>
-                <span
-                  style={{
-                    marginLeft: "auto",
-                    fontSize: 13,
-                    color: "var(--m-soft)",
-                  }}
-                >
-                  {meta.hint}
-                </span>
+                <span className="ml-auto text-[13px] text-soft">{meta.hint}</span>
               </div>
 
-              <GameBoard id={game} pace={pace} />
+              <GameBoard id={game} pace={pace} onFinish={setScore} />
+
+              {scorable && <Leaderboard game={game} score={score} />}
             </div>
           </section>
         )}
 
-        <section
-          style={{ maxWidth: 1140, margin: "30px auto 0", padding: "0 32px 80px" }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <h2
-              style={{
-                margin: 0,
-                fontFamily: jost,
-                fontWeight: 600,
-                fontSize: 24,
-                letterSpacing: -0.2,
-              }}
-            >
+        <section className="mx-auto mt-[30px] max-w-[1140px] px-8 pb-20">
+          <div className="flex items-center gap-3.5">
+            <h2 className="font-sans text-2xl font-semibold tracking-[-.2px]">
               All Games
             </h2>
-            <span
-              style={{
-                marginLeft: "auto",
-                fontFamily: jost,
-                fontSize: 12,
-                color: "var(--m-soft)",
-              }}
-            >
-              6 games
-            </span>
+            <span className="ml-auto font-sans text-xs text-soft">6 games</span>
           </div>
 
-          <GameTiles onPick={setGame} />
+          <GameTiles onPick={open} />
 
-          <p style={{ margin: "26px 2px 0", fontSize: 13, color: "var(--m-soft)" }}>
+          <p className="mt-[26px] px-0.5 text-[13px] text-soft">
             Games not helping today?{" "}
-            <Link to="/resources" style={{ textDecoration: "underline" }}>
+            <Link to="/resources" className="underline">
               Support resources
             </Link>
             , or talk to matchai from the bubble in the corner.
           </p>
         </section>
 
-        <section
-          style={{ maxWidth: 1120, margin: "0 auto", padding: "10px 32px 76px" }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              gap: 16,
-              flexWrap: "wrap",
-            }}
-          >
-            <h2
-              style={{
-                margin: 0,
-                fontFamily: script,
-                fontWeight: 400,
-                fontSize: "clamp(34px, 4.2vw, 52px)",
-                lineHeight: 1.12,
-              }}
-            >
+        <section className="mx-auto max-w-[1120px] px-8 pb-[76px] pt-2.5">
+          <div className="flex flex-wrap items-baseline gap-4">
+            <h2 className="font-script text-[clamp(34px,4.2vw,52px)] leading-[1.12]">
               Coming soon
             </h2>
-            <span
-              style={{
-                marginLeft: "auto",
-                fontSize: 11,
-                letterSpacing: 2.5,
-                textTransform: "uppercase",
-                color: "var(--m-soft)",
-              }}
-            >
+            <span className="ml-auto text-[11px] uppercase tracking-[2.5px] text-soft">
               in the works
             </span>
           </div>
           <p
-            style={{
-              margin: "10px 0 26px",
-              color: "var(--m-soft)",
-              fontSize: 15.5,
-              maxWidth: "60ch",
-              textWrap: "pretty",
-            }}
+            className="mb-[26px] mt-2.5 max-w-[60ch] text-[15.5px] text-soft"
+            style={{ textWrap: "pretty" }}
           >
             Four things being built next for matchai.
           </p>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: 16,
-            }}
-          >
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
             {SOON.map((s) => (
-              <div
-                key={s.tag}
-                style={{
-                  background: "color-mix(in srgb, var(--m-card) 86%, transparent)",
-                  backdropFilter: "blur(8px)",
-                  border: "1px solid var(--m-line)",
-                  borderRadius: 18,
-                  padding: 24,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    fontSize: 11,
-                    letterSpacing: 2,
-                    textTransform: "uppercase",
-                    color: "var(--m-soft)",
-                  }}
-                >
-                  <span
-                    style={{
-                      width: 7,
-                      height: 7,
-                      borderRadius: "50%",
-                      background: "var(--m-accent)",
-                      flex: "none",
-                    }}
-                  />
+              <div key={s.tag} className="m-glass p-6">
+                <div className="flex items-center gap-2.5 text-[11px] uppercase tracking-[2px] text-soft">
+                  <span className="h-[7px] w-[7px] flex-none rounded-full bg-accent" />
                   {s.tag}
                 </div>
-                <div
-                  style={{
-                    marginTop: 12,
-                    fontFamily: script,
-                    fontWeight: 400,
-                    fontSize: 30,
-                    lineHeight: 1.25,
-                  }}
-                >
+                <div className="mt-3 font-script text-[30px] leading-[1.25]">
                   {s.title}
                 </div>
                 <p
-                  style={{
-                    margin: "8px 0 0",
-                    fontSize: 14,
-                    lineHeight: 1.6,
-                    color: "var(--m-soft)",
-                    textWrap: "pretty",
-                  }}
+                  className="mt-2 text-sm leading-[1.6] text-soft"
+                  style={{ textWrap: "pretty" }}
                 >
                   {s.body}
                 </p>
