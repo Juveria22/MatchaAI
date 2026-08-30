@@ -13,31 +13,31 @@
 
 ## About
 
-MatchaAI is a wellness companion built around the matcha ritual — the idea that a few deliberate minutes can change the shape of a day. It pairs a supportive chatbot with a small lifestyle site: the science behind the leaf, six no-pressure games, and a vetted list of places to turn when things get heavy.
+MatchaAI is a wellness companion built around the matcha ritual, the idea that a few deliberate minutes can change the shape of a day. It pairs a supportive chatbot with a small lifestyle site: the science behind the leaf, six no-pressure games, and a vetted list of places to turn when things get heavy.
 
 The chat side combines a cloud model (OpenAI) with local inference (Ollama) for private deployment, plus crisis detection and session memory so conversations carry context instead of starting cold every time.
 
 ## Features
 
 **Front end**
-- **Four linked pages** — Lifestyle (home), Companion (full-page chat), The Calm Corner (games), Resources
-- **Floating chat widget** — available on every page, talks to the same `/chat` endpoint
-- **Half-pill navbar** — anchored to the top edge, fades up and away as you scroll down, returns at the top
-- **Light and dark modes** — remembered across visits
-- **Ritual cards** — Pour, Whisk, Pause; hover reveals the ceremony detail (water temperature, the bamboo chasen, *ichigo ichie*)
-- **Hero video with live tweaks** — clip start, clip end, and playback speed
-- **Static by design** — plain HTML, no build step, no framework install
+- **Four linked pages**: Lifestyle (home), Companion (full-page chat), The Calm Corner (games), Resources
+- **Floating chat widget**: available on every page, talks to the same `/chat` endpoint
+- **Half-pill navbar**: anchored to the top edge, fades up and away as you scroll down, returns at the top
+- **Light and dark modes**: remembered across visits
+- **Ritual cards**: Pour, Whisk, Pause; hover reveals the ceremony detail (water temperature, the bamboo chasen, *ichigo ichie*)
+- **Hero video with live tweaks**: clip start, clip end, and playback speed
+- **React SPA**: CRA + react-router, one app shell, four routes
 
 **Back end**
-- **Dual AI backend** — cloud (OpenAI API) or local (Ollama) for privacy or performance
-- **Crisis detection** — flags high-risk language and responds with hotline resources before anything else runs
-- **Document engine** — routes "how do I…" questions to curated wellness docs instead of the LLM
-- **Conversation memory** — per-session context via `session_id`
-- **Leaderboard API** — top-five score store, ready for scored mini-games
+- **Dual AI backend**: cloud (OpenAI API) or local (Ollama) for privacy or performance
+- **Crisis detection**: flags high-risk language and responds with hotline resources before anything else runs
+- **Document engine**: routes "how do I…" questions to curated wellness docs instead of the LLM
+- **Conversation memory**: per-session context via `session_id`
+- **Leaderboard API**: top-five score store, ready for scored mini-games
 
 ## Demo
 
-**Live:** [matchai.onrender.com](https://matchai.onrender.com) — API at [matchaibackend.onrender.com](https://matchaibackend.onrender.com)
+**Live:** [matchai.onrender.com](https://matchai.onrender.com), API at [matchaibackend.onrender.com](https://matchaibackend.onrender.com)
 
 <details>
 <summary>Version history</summary>
@@ -55,11 +55,11 @@ Version 3
 
 ## Tech Stack
 
-**Front end** — static HTML, inline CSS, vanilla JS (previously React + Tailwind; see git history)
+**Front end**: React 19, React Router 7, Create React App, inline styles
 
-**Back end** — FastAPI (Python), OpenAI API, LlamaIndex, Ollama
+**Back end**: FastAPI (Python), OpenAI API, LlamaIndex, Ollama
 
-**AI/ML** — semantic search with embeddings, keyword intent routing, context-aware conversation handling
+**AI/ML**: semantic search with embeddings, keyword intent routing, context-aware conversation handling
 
 ## Project Structure
 
@@ -73,15 +73,16 @@ matchaAI/
 │   ├── logger.py            # chat logging
 │   └── requirements.txt
 ├── frontend/
-│   └── public/              # the deployed site (publish directory)
-│       ├── index.html       # Lifestyle — home
-│       ├── matchai.html     # Companion — full-page chat
-│       ├── play.html        # The Calm Corner — games
-│       ├── resources.html   # Resources
-│       ├── ChatWidget.dc.html
-│       ├── support.js       # runtime
-│       ├── config.js        # backend URL
-│       └── uploads/         # photography
+│   ├── public/
+│   │   ├── index.html       # app shell: fonts, favicon, meta
+│   │   └── uploads/         # photography
+│   └── src/
+│       ├── App.js           # routes + navbar
+│       ├── theme.js         # light / dark palettes
+│       ├── api.js           # backend calls
+│       ├── components/      # NavBar, ChatWidget, GameTiles
+│       ├── pages/           # Lifestyle, Companion, Play, Resources
+│       └── games/           # the six Calm Corner games
 ├── data/                    # document engine source files
 │   ├── mindfulness/  nutrition/  sleep/  stress/
 └── render.yaml
@@ -89,7 +90,7 @@ matchaAI/
 
 ## Installation
 
-**Prerequisites** — Python 3.8+, and (optionally) Ollama for offline mode. The front end needs no toolchain.
+**Prerequisites**: Python 3.8+, Node 18+, and optionally Ollama for offline mode.
 
 ### Backend
 
@@ -106,20 +107,19 @@ uvicorn main:app --reload       # http://127.0.0.1:8000
 
 ### Frontend
 
-No install, no build. Serve the folder:
-
 ```bash
-cd frontend/public
-python -m http.server 3000      # http://localhost:3000
+cd frontend
+npm install
+npm start                       # http://localhost:3000
 ```
 
-Then point the site at your backend in `frontend/public/config.js`:
+Point it at your backend with `frontend/.env.local`:
 
-```js
-window.MATCHAI_API_BASE = "http://127.0.0.1:8000";   // or your Render URL
+```
+REACT_APP_API_BASE=http://127.0.0.1:8000
 ```
 
-Open the files directly (`file://`) and the pages still render — only the chat needs the API.
+Routes: `/` home, `/matchai` chat, `/play` games, `/resources` support.
 
 ## API
 
@@ -130,39 +130,41 @@ GET  /leaderboard                                               ->  [ { "name", 
 POST /leaderboard   { "name": "...", "score": 0 }               ->  top five
 ```
 
-The widget stores a `session_id` in `localStorage` so memory survives reloads.
+The widget stores a `session_id` in `localStorage` so memory survives reloads. Calls live in `frontend/src/api.js`.
 
 ## Deployment
 
-Static front end on Render:
+Front end on Render (static site built from the React app):
 
-- **Build Command:** *(empty)*
-- **Publish Directory:** `frontend/public`
+- **Build Command:** `npm install && npm run build`
+- **Publish Directory:** `frontend/build`
+- **Rewrite:** `/*` → `/index.html` so client-side routes survive a refresh
+- **Env:** `REACT_APP_API_BASE`
 
-`render.yaml` encodes both for blueprint deploys. In production, narrow CORS in `backend/main.py` from `["*"]` to your site origin.
+`render.yaml` encodes all of it for blueprint deploys. In production, narrow CORS in `backend/main.py` from `["*"]` to your site origin.
 
 ## Roadmap
 
-- [ ] **Mobile app** — native iOS/Android
-- [ ] **Advanced analytics** — sentiment tracking and mood patterns over time
-- [ ] **Database integration** — persistent chat history
-- [x] **Mini games** — six calm activities in The Calm Corner
-- [ ] **Scored games** — wire the clicker into the existing `/leaderboard` API
-- [ ] **Voice support** — voice input and output
-- [ ] **Multi-language** — support for non-English speakers
-- [x] **Resource library** — curated support lines and reading
+- [ ] **Mobile app**: native iOS/Android
+- [ ] **Advanced analytics**: sentiment tracking and mood patterns over time
+- [ ] **Database integration**: persistent chat history
+- [x] **Mini games**: six calm activities in The Calm Corner
+- [ ] **Scored games**: wire the clicker into the existing `/leaderboard` API
+- [ ] **Voice support**: voice input and output
+- [ ] **Multi-language**: support for non-English speakers
+- [x] **Resource library**: curated support lines and reading
 
 ## Contributing
 
-Contributions are welcome — report bugs, suggest features, open pull requests. Please open an issue first to discuss major changes.
+Contributions are welcome, report bugs, suggest features, open pull requests. Please open an issue first to discuss major changes.
 
 ## Disclaimer
 
 MatchaAI is not a replacement for professional mental health care. If you're in crisis, please reach out:
 
-- **988 Suicide & Crisis Lifeline** — call or text 988
-- **Crisis Text Line** — text HOME to 741741
-- **International Association for Suicide Prevention** — [befrienders.org](https://www.befrienders.org)
+- **988 Suicide & Crisis Lifeline**: call or text 988
+- **Crisis Text Line**: text HOME to 741741
+- **International Association for Suicide Prevention**: [befrienders.org](https://www.befrienders.org)
 
 ## Acknowledgments
 

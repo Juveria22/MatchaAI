@@ -1,15 +1,22 @@
-# Render static site for the matchai front end.
-# Dashboard equivalent: Build Command = (empty), Publish Directory = frontend/public
 services:
+  - type: web
+    name: matchai-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+
   - type: web
     name: matchai
     runtime: static
-    buildCommand: ""
-    staticPublishPath: ./frontend/public
-    headers:
-      - path: /uploads/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-      - path: /*.html
-        name: Cache-Control
-        value: no-cache
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    envVars:
+      - key: REACT_APP_API_BASE
+        value: https://matchaibackend.onrender.com
+    routes:
+      # spa, every path serves index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
