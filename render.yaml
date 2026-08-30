@@ -1,0 +1,15 @@
+# Render static site for the matchai front end.
+# Dashboard equivalent: Build Command = (empty), Publish Directory = frontend/public
+services:
+  - type: web
+    name: matchai
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: ./frontend/public
+    headers:
+      - path: /uploads/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /*.html
+        name: Cache-Control
+        value: no-cache
