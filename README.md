@@ -25,15 +25,16 @@ The chat side combines a cloud model (OpenAI) with local inference (Ollama) for 
 - **Half-pill navbar**: anchored to the top edge, fades up and away as you scroll down, returns at the top
 - **Light and dark modes**: remembered across visits
 - **Ritual cards**: Pour, Whisk, Pause; hover reveals the ceremony detail (water temperature, the bamboo chasen, *ichigo ichie*)
-- **Hero video with live tweaks**: clip start, clip end, and playback speed
 - **React SPA**: CRA + react-router, one app shell, four routes
+- **Tailwind styling**: matcha palette lives in css vars, so the dark toggle is one swap
+- **Game leaderboards**: four of the six games keep a top five, Zen Garden and Breathing Cup stay score free
 
 **Back end**
 - **Dual AI backend**: cloud (OpenAI API) or local (Ollama) for privacy or performance
 - **Crisis detection**: flags high-risk language and responds with hotline resources before anything else runs
 - **Document engine**: routes "how do I…" questions to curated wellness docs instead of the LLM
 - **Conversation memory**: per-session context via `session_id`
-- **Leaderboard API**: top-five score store, ready for scored mini-games
+- **Per game leaderboards**: top five for each scored game, seconds or counts
 
 ## Demo
 
@@ -55,7 +56,7 @@ Version 3
 
 ## Tech Stack
 
-**Front end**: React 19, React Router 7, Create React App, inline styles
+**Front end**: React 19, React Router 7, Create React App, Tailwind CSS
 
 **Back end**: FastAPI (Python), OpenAI API, LlamaIndex, Ollama
 
@@ -66,7 +67,7 @@ Version 3
 ```
 matchaAI/
 ├── backend/
-│   ├── main.py              # FastAPI server: /chat, /doc-chat, /leaderboard
+│   ├── main.py              # FastAPI server: /chat, /doc-chat, /leaderboard/{game}
 │   ├── chat_engine.py       # conversational LLM + session memory
 │   ├── doc_engine.py        # document search over data/
 │   ├── crisis.py            # crisis keyword detection
@@ -80,7 +81,7 @@ matchaAI/
 │       ├── App.js           # routes + navbar
 │       ├── theme.js         # light / dark palettes
 │       ├── api.js           # backend calls
-│       ├── components/      # NavBar, ChatWidget, GameTiles
+│       ├── components/      # NavBar, ChatWidget, GameTiles, Leaderboard
 │       ├── pages/           # Lifestyle, Companion, Play, Resources
 │       └── games/           # the six Calm Corner games
 ├── data/                    # document engine source files
@@ -126,8 +127,9 @@ Routes: `/` home, `/matchai` chat, `/play` games, `/resources` support.
 ```
 POST /chat          { "query": "...", "session_id": "<uuid>" }  ->  { "response": "..." }
 POST /doc-chat      { "query": "...", "session_id": "<uuid>" }  ->  { "response": "..." }
-GET  /leaderboard                                               ->  [ { "name", "score" } ]
-POST /leaderboard   { "name": "...", "score": 0 }               ->  top five
+GET  /leaderboard/{game}                                        ->  [ { "name", "score" } ]
+POST /leaderboard/{game}  { "name": "...", "score": 12.4 }      ->  top five
+GET  /leaderboards                                              ->  every board
 ```
 
 The widget stores a `session_id` in `localStorage` so memory survives reloads. Calls live in `frontend/src/api.js`.
@@ -149,7 +151,7 @@ Front end on Render (static site built from the React app):
 - [ ] **Advanced analytics**: sentiment tracking and mood patterns over time
 - [ ] **Database integration**: persistent chat history
 - [x] **Mini games**: six calm activities in The Calm Corner
-- [ ] **Scored games**: wire the clicker into the existing `/leaderboard` API
+- [x] **Leaderboards**: Whisk and Memory race the clock, Leaf Catch and Pearl Pop count
 - [ ] **Voice support**: voice input and output
 - [ ] **Multi-language**: support for non-English speakers
 - [x] **Resource library**: curated support lines and reading
