@@ -37,7 +37,8 @@ _PROMPT = ChatPromptTemplate.from_messages([
     ("system",
      "You are Match.ai, a warm and empathetic wellness assistant. "
      "Your goal is to comfort and support the user with gentle, kind, encouraging messages. "
-     "Maintain a positive, emotionally intelligent tone."),
+     "Maintain a positive, emotionally intelligent tone. "
+     "Never use emoji, emoticons, kaomoji, or decorative symbols. Plain text only."),
     MessagesPlaceholder(variable_name="history"),
     ("human", "{input}"),
 ])
@@ -80,7 +81,7 @@ def _invoke_chain(chain, session_id: str, user_query: str) -> str:
             return result.content
         except RateLimitError:
             wait = 2 ** attempt
-            print(f"[chat_engine] Rate limit hit — retrying in {wait}s (attempt {attempt + 1})")
+            print(f"[chat_engine] Rate limit hit, retrying in {wait}s (attempt {attempt + 1})")
             time.sleep(wait)
         except (APIError, APIConnectionError) as exc:
             print(f"[chat_engine] OpenAI API error ({type(exc).__name__}): {exc}")
@@ -98,7 +99,7 @@ def get_response(session_id: str, user_query: str) -> str:
     if response is not None:
         return response
 
-    print("[chat_engine] OpenAI unavailable — falling back to Ollama.")
+    print("[chat_engine] OpenAI unavailable, falling back to Ollama.")
     response = _invoke_chain(_ollama_chain, session_id, user_query)
     if response is not None:
         return response
