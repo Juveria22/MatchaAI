@@ -33,9 +33,14 @@ module.exports = {
           from: { transform: "scale(1)", opacity: "1" },
           to: { transform: "scale(1.7)", opacity: "0" },
         },
+        blink: {
+          "0%, 45%": { opacity: "1" },
+          "55%, 100%": { opacity: "0" },
+        },
       },
       animation: {
         dots: "dots 1.2s infinite",
+        blink: "blink 1s steps(1, end) infinite",
       },
     },
   },
