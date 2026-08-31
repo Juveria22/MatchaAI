@@ -29,12 +29,15 @@ export default function NavBar({ onToggleTheme, themeIcon }) {
   }, []);
 
   return (
-    <nav className={"m-nav" + (hidden ? " m-nav--hidden" : "")}>
-      <Link to="/" className="flex items-center font-script text-[32px] leading-none text-ink">
+    <nav className={"m-nav font-sans" + (hidden ? " m-nav--hidden" : "")}>
+      <Link
+        to="/"
+        className="flex items-center font-script text-[32px] font-normal not-italic leading-none tracking-normal text-ink"
+      >
         matchai
       </Link>
 
-      <div className="flex gap-[26px] font-sans text-[11.5px] uppercase tracking-[2px]">
+      <div className="flex gap-[26px] font-sans text-[11.5px] font-normal not-italic uppercase tracking-[2px]">
         {LINKS.map((l) => (
           <Link
             key={l.to}
