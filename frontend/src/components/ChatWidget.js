@@ -26,7 +26,15 @@ function Dots() {
   );
 }
 
-function Bubble({ role, text, small }) {
+// matchai is a calm voice, no emoji in replies
+const EMOJI =
+  /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{20E3}\u{1F3FB}-\u{1F3FF}]/gu;
+
+function stripEmoji(text) {
+  return String(text).replace(EMOJI, "").replace(/[ \t]{2,}/g, " ").trim();
+}
+
+function Bubble({ role, text, small, typing }) {
   const mine = role === "user";
   return (
     <div
@@ -39,6 +47,9 @@ function Bubble({ role, text, small }) {
       }
     >
       {text}
+      {typing && (
+        <span className="ml-[1px] inline-block h-[1em] w-[2px] translate-y-[2px] animate-blink bg-current align-baseline" />
+      )}
     </div>
   );
 }
@@ -64,6 +75,21 @@ export default function ChatWidget({
 
   useEffect(scrollDown, [msgs, busy, scrollDown]);
 
+  // types the newest reply out one letter at a time
+  useEffect(() => {
+    const i = msgs.length - 1;
+    const m = msgs[i];
+    if (!m || m.role !== "assistant" || m.shown >= m.text.length) return;
+    const t = setTimeout(() => {
+      setMsgs((ms) =>
+        ms.map((x, j) =>
+          j === i ? { ...x, shown: Math.min(x.text.length, x.shown + 2) } : x
+        )
+      );
+    }, 18);
+    return () => clearTimeout(t);
+  }, [msgs]);
+
   const sendText = useCallback(
     async (text) => {
       if (!text || busy) return;
@@ -71,9 +97,12 @@ export default function ChatWidget({
       setBusy(true);
       try {
         const reply = await askMatchai(text);
-        setMsgs((m) => [...m, { role: "assistant", text: reply }]);
+        setMsgs((m) => [
+          ...m,
+          { role: "assistant", text: stripEmoji(reply), shown: 0 },
+        ]);
       } catch (e) {
-        setMsgs((m) => [...m, { role: "assistant", text: FALLBACK }]);
+        setMsgs((m) => [...m, { role: "assistant", text: FALLBACK, shown: 0 }]);
       }
       setBusy(false);
     },
@@ -101,9 +130,18 @@ export default function ChatWidget({
       }
     >
       <Bubble role="assistant" text={greeting} small={small} />
-      {msgs.map((m, i) => (
-        <Bubble key={i} role={m.role} text={m.text} small={small} />
-      ))}
+      {msgs.map((m, i) => {
+        const partial = m.shown == null ? m.text : m.text.slice(0, m.shown);
+        return (
+          <Bubble
+            key={i}
+            role={m.role}
+            text={partial}
+            small={small}
+            typing={m.shown != null && m.shown < m.text.length}
+          />
+        );
+      })}
       {busy && <Dots />}
     </div>
   );
